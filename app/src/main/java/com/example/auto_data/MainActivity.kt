@@ -3,249 +3,44 @@ package com.example.auto_data
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.*
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.example.auto_data.navigation.Screen
-import com.example.auto_data.screens.CompareScreen
-import com.example.auto_data.screens.MainScreen
-import com.example.auto_data.screens.NewsScreen
-import com.example.auto_data.ui.theme.AutoDataTheme
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import com.example.auto_data.screens.AccountScreen
-import com.example.auto_data.screens.CarModelsScreen
-import com.example.auto_data.ui.theme.icon_size_normal
-
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.auto_data.ui.theme.AutoDataTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             AutoDataTheme {
+                // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
                 ) {
-                    // Create a NavController
-                    val navController = rememberNavController()
-                    val selectedTab = remember { mutableStateOf(0) }
-
-                    Scaffold(
-                        topBar = {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .background(MaterialTheme.colorScheme.primary),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                // Navigation Icon (Left section)
-                                Box(
-                                    modifier = Modifier.weight(1f),
-                                    contentAlignment = Alignment.CenterStart
-                                ) {
-                                    // Your navigation icon here
-                                }
-
-                                // Title (Middle section)
-                                Box(
-                                    modifier = Modifier.weight(1f),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Image(
-                                        painter = painterResource(id = R.drawable.auto_data_name),
-                                        contentDescription = "App Logo",
-                                        modifier = Modifier
-                                            .height(42.dp)
-                                            .padding(top = 8.dp)
-                                    )
-                                }
-
-                                // Actions (Right section)
-                                Box(
-                                    modifier = Modifier.weight(1f),
-                                    contentAlignment = Alignment.CenterEnd
-                                ) {
-                                    Row {
-                                        IconButton(onClick = { /* Handle favorite icon click */ }) {
-                                            Icon(
-                                                painter = painterResource(id = R.drawable.wishlist),
-                                                contentDescription = "Wishlist",
-                                                modifier = Modifier.size(icon_size_normal),
-                                                tint = MaterialTheme.colorScheme.onPrimary
-                                            )
-                                        }
-                                        IconButton(onClick = { /* Handle settings icon click */ }) {
-                                            Icon(
-                                                painter = painterResource(id = R.drawable.settings),
-                                                contentDescription = "Settings",
-                                                modifier = Modifier.size(icon_size_normal),
-                                                tint = MaterialTheme.colorScheme.onPrimary
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        bottomBar = {
-                            Box(
-                                modifier = Modifier
-                                    .height(56.dp)
-                            ) {
-                                NavigationBar(containerColor = MaterialTheme.colorScheme.primary)
-                                {
-                                    NavigationBarItem(
-                                        icon = {
-                                            Icon(
-                                                painter = painterResource(id = R.drawable.home),
-                                                contentDescription = "Home",
-                                                modifier = Modifier.size(icon_size_normal),
-                                                tint = MaterialTheme.colorScheme.onPrimary
-                                            )
-                                        },
-                                        selected = selectedTab.value == 0,
-                                        onClick = {
-                                            selectedTab.value = 0
-                                            navController.navigate(Screen.Main.route) {
-                                                popUpTo(navController.graph.startDestinationId) {
-                                                    saveState = true
-                                                }
-                                                launchSingleTop = true
-                                                restoreState = true
-                                            }
-                                        },
-                                        colors = NavigationBarItemDefaults.colors(
-                                            selectedIconColor = MaterialTheme.colorScheme.onPrimary,
-                                            unselectedIconColor = MaterialTheme.colorScheme.onSurface,
-                                            indicatorColor = MaterialTheme.colorScheme.secondary
-                                        )
-
-                                    )
-                                    NavigationBarItem(
-                                        icon = {
-                                            Icon(
-                                                painter = painterResource(id = R.drawable.car),
-                                                contentDescription = "Compare",
-                                                modifier = Modifier.size(icon_size_normal),
-                                                tint = MaterialTheme.colorScheme.onPrimary
-                                            )
-
-                                        },
-                                        selected = selectedTab.value == 3,
-                                        onClick = {
-                                            selectedTab.value = 3
-                                            navController.navigate(Screen.Compare.route) {
-                                                popUpTo(navController.graph.startDestinationId) {
-                                                    saveState = true
-                                                }
-                                                launchSingleTop = true
-                                                restoreState = true
-                                            }
-                                        },
-                                        colors = NavigationBarItemDefaults.colors(
-                                            selectedIconColor = MaterialTheme.colorScheme.onPrimary,
-                                            unselectedIconColor = MaterialTheme.colorScheme.onSurface,
-                                            indicatorColor = MaterialTheme.colorScheme.secondary
-                                        )
-                                    )
-                                    NavigationBarItem(
-                                        icon = {
-                                            Icon(
-                                                painter = painterResource(id = R.drawable.newspaper),
-                                                contentDescription = "News",
-                                                modifier = Modifier.size(icon_size_normal),
-                                                tint = MaterialTheme.colorScheme.onPrimary,
-                                            )
-                                        },
-                                        selected = selectedTab.value == 2,
-                                        onClick = {
-                                            selectedTab.value = 2
-                                            navController.navigate(Screen.News.route) {
-                                                popUpTo(navController.graph.startDestinationId) {
-                                                    saveState = true
-                                                }
-                                                launchSingleTop = true
-                                                restoreState = true
-                                            }
-                                        },
-                                        colors = NavigationBarItemDefaults.colors(
-                                            selectedIconColor = MaterialTheme.colorScheme.onPrimary,
-                                            unselectedIconColor = MaterialTheme.colorScheme.onSurface,
-                                            indicatorColor = MaterialTheme.colorScheme.secondary
-                                        )
-                                    )
-                                    NavigationBarItem(
-                                        icon = {
-                                            Icon(
-                                                painter = painterResource(id = R.drawable.user),
-                                                contentDescription = "Account",
-                                                modifier = Modifier.size(icon_size_normal),
-                                                tint = MaterialTheme.colorScheme.onPrimary
-                                            )
-                                        },
-                                        selected = selectedTab.value == 1,
-                                        onClick = {
-                                            selectedTab.value = 1
-                                            navController.navigate(Screen.Account.route) {
-                                                popUpTo(navController.graph.startDestinationId) {
-                                                    saveState = true
-                                                }
-                                                launchSingleTop = true
-                                                restoreState = true
-                                            }
-                                        },
-                                        colors = NavigationBarItemDefaults.colors(
-                                            selectedIconColor = MaterialTheme.colorScheme.onPrimary,
-                                            unselectedIconColor = MaterialTheme.colorScheme.onSurface,
-                                            indicatorColor = MaterialTheme.colorScheme.secondary
-                                        )
-                                    )
-                                }
-                            }
-                        }
-                    ) { innerPadding ->
-                        NavHost(
-                            navController = navController,
-                            startDestination = Screen.Main.route,
-                            Modifier.padding(innerPadding)
-                        ) {
-                            composable(Screen.Main.route) {
-                                MainScreen(navController)
-                            }
-                            composable(Screen.Compare.route) {
-                                CompareScreen()
-                            }
-                            composable(Screen.News.route) {
-                                NewsScreen()
-                            }
-                            composable(Screen.Account.route) {
-                                AccountScreen()
-                            }
-                            composable("car_models/{carCompany}") { backStackEntry ->
-                                val carCompany = backStackEntry.arguments?.getString("carCompany")
-                                CarModelsScreen(carCompany)
-                            }
-
-                        }
-                    }
+                    Greeting("Android")
                 }
             }
         }
+    }
+}
+
+@Composable
+fun Greeting(name: String, modifier: Modifier = Modifier) {
+    Text(
+        text = "Hello $name!",
+        modifier = modifier
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    AutoDataTheme {
+        Greeting("Android")
     }
 }
