@@ -56,8 +56,8 @@ val carCompanies = listOf(
     CarCompany("Lotus", R.drawable.lotus),
     CarCompany("Maserati", R.drawable.maserati),
     CarCompany("Mazda", R.drawable.mazda),
-    CarCompany("Mclaren", R.drawable.mc_laren),
-    CarCompany("Mercedes", R.drawable.mercedes_benz),
+    CarCompany("McLaren", R.drawable.mc_laren),
+    CarCompany("Mercedes-Benz", R.drawable.mercedes_benz),
     CarCompany("Mini", R.drawable.mini),
     CarCompany("Mitsubishi", R.drawable.mitsubishi),
     CarCompany("Nissan", R.drawable.nissan),
@@ -160,7 +160,7 @@ fun CarCompanyItem(carCompany: CarCompany, navController: NavHostController, isG
             Image(
                 painter = painterResource(id = carCompany.icon),
                 contentDescription = "Car Icon",
-                modifier = Modifier.size(55.dp)
+                modifier = Modifier.size(50.dp)
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(text = carCompany.name, style = MaterialTheme.typography.titleMedium)
