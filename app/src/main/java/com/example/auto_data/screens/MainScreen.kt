@@ -142,7 +142,7 @@ fun MainScreen(navController: NavHostController) {
 @Composable
 fun CarCompanyItem(carCompany: CarCompany, navController: NavHostController, isGrid: Boolean) {
     val borderModifier = Modifier.border(width = 1.dp, color = Color.Black)
-    val paddingModifier = Modifier.padding(vertical = 8.dp, horizontal = 8.dp)
+    val paddingModifier = Modifier.padding(vertical = 12.dp, horizontal = 12.dp)
     val clickableModifier = Modifier.clickable {
         navController.navigate("car_models/${carCompany.name}")
     }
@@ -162,8 +162,8 @@ fun CarCompanyItem(carCompany: CarCompany, navController: NavHostController, isG
                 contentDescription = "Car Icon",
                 modifier = Modifier.size(50.dp)
             )
-            Spacer(modifier = Modifier.width(10.dp))
-            Text(text = carCompany.name, style = MaterialTheme.typography.titleMedium)
+            Spacer(modifier = Modifier.width(12.dp))
+            Text(text = carCompany.name, style = MaterialTheme.typography.titleSmall)
         }
     }
 }
