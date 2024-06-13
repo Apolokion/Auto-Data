@@ -32,6 +32,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import com.example.auto_data.screens.AccountScreen
 import com.example.auto_data.screens.CarModelsScreen
+import com.example.auto_data.screens.SettingsScreen
+import com.example.auto_data.screens.WishListScreen
 import com.example.auto_data.ui.theme.icon_size_normal
 
 
@@ -83,7 +85,7 @@ class MainActivity : ComponentActivity() {
                                     contentAlignment = Alignment.CenterEnd
                                 ) {
                                     Row {
-                                        IconButton(onClick = { /* Handle favorite icon click */ }) {
+                                        IconButton(onClick = { navController.navigate(Screen.WishList.route) }) {
                                             Icon(
                                                 painter = painterResource(id = R.drawable.wishlist),
                                                 contentDescription = "Wishlist",
@@ -91,7 +93,7 @@ class MainActivity : ComponentActivity() {
                                                 tint = MaterialTheme.colorScheme.onPrimary
                                             )
                                         }
-                                        IconButton(onClick = { /* Handle settings icon click */ }) {
+                                        IconButton(onClick = { navController.navigate(Screen.Settings.route) }) {
                                             Icon(
                                                 painter = painterResource(id = R.drawable.settings),
                                                 contentDescription = "Settings",
@@ -236,6 +238,12 @@ class MainActivity : ComponentActivity() {
                             }
                             composable(Screen.Account.route) {
                                 AccountScreen()
+                            }
+                            composable(Screen.Settings.route) {
+                                SettingsScreen()
+                            }
+                            composable(Screen.WishList.route) {
+                                WishListScreen()
                             }
                             composable("car_models/{carCompany}") { backStackEntry ->
                                 val carCompany = backStackEntry.arguments?.getString("carCompany")
