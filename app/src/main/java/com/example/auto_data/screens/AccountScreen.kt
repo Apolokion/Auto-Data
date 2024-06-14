@@ -1,5 +1,3 @@
-// AccountScreen.kt
-
 package com.example.auto_data.screens
 
 import androidx.compose.foundation.background
@@ -19,9 +17,10 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun AccountScreen() {
-    // State variables for username and password
+    // State variables for username, password, and error message
     val username = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
+    val errorMessage = remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -31,7 +30,7 @@ fun AccountScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Login",
+            text = "Log In",
             style = MaterialTheme.typography.displaySmall,
             color = MaterialTheme.colorScheme.primary
         )
@@ -74,14 +73,33 @@ fun AccountScreen() {
         )
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Display error message if it exists
+        if (errorMessage.value.isNotEmpty()) {
+            Text(
+                text = errorMessage.value,
+                color = Color.Red,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+        }
+
         // Login button
         Button(
             onClick = {
-                // Handle login action here
+                errorMessage.value = "Connection error"
             },
             modifier = Modifier.fillMaxWidth().padding(8.dp)
         ) {
-            Text("Login")
+            Text("Log in")
+        }
+
+        // Create Account button
+        Button(
+            onClick = {
+                errorMessage.value = "Connection error"
+            },
+            modifier = Modifier.fillMaxWidth().padding(8.dp)
+        ) {
+            Text("Create account")
         }
     }
 }
