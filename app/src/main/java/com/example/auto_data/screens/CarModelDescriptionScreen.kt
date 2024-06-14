@@ -1,12 +1,7 @@
 package com.example.auto_data.screens
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,19 +15,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.auto_data.data.carModelsMap
-import com.example.auto_data.navigation.Screen
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CarModelsScreen(carCompany: String?, navController: NavHostController) {
-    val carModels = carModelsMap[carCompany] ?: emptyList()
-
+fun CarModelDescriptionScreen(carModel: String?, navController: NavHostController) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = carCompany ?: "Car Models")
+                    Text(text = carModel ?: "Car Model Description")
                 },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
@@ -43,22 +35,10 @@ fun CarModelsScreen(carCompany: String?, navController: NavHostController) {
             )
         }
     ) { innerPadding ->
-        LazyColumn(
-            contentPadding = innerPadding,
-            modifier = Modifier.fillMaxSize().padding(16.dp)
-        ) {
-            items(carModels) { carModel ->
-                Text(
-                    text = carModel.name,
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp)
-                        .clickable {
-                            navController.navigate(Screen.CarModelDescription.createRoute(carModel.name))
-                        }
-                )
-            }
-        }
+        Text(
+            text = "Description for $carModel",
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(innerPadding).padding(16.dp)
+        )
     }
 }

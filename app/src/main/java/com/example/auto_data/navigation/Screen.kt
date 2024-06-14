@@ -7,5 +7,11 @@ sealed class Screen(val route: String) {
     object Account : Screen("account_screen")
     object Settings : Screen("settings_screen")
     object WishList : Screen("wish_list_screen")
+    object CarModels : Screen("car_models/{carCompany}") {
+        fun createRoute(carCompany: String) = "car_models/$carCompany"
+    }
+    object CarModelDescription : Screen("car_model_description/{carModel}") {
+        fun createRoute(carModel: String) = "car_model_description/$carModel"
+    }
 
 }
