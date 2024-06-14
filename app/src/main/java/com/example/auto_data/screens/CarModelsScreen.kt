@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.auto_data.data.carModelsMap
-import com.example.auto_data.navigation.Screen
+import com.example.auto_data.navigation.ScreenObjects
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,7 +55,7 @@ fun CarModelsScreen(carCompany: String?, navController: NavHostController) {
                         .fillMaxWidth()
                         .padding(vertical = 8.dp)
                         .clickable {
-                            navController.navigate(Screen.CarModelDescription.createRoute(carModel.name))
+                            navController.navigate(ScreenObjects.CarModelDescription.createRoute(carModel.name))
                         }
                 )
             }
