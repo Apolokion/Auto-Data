@@ -7,21 +7,18 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import com.example.auto_data.viewmodels.AccountViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 
+
+// AccountScreen.kt
 @Composable
-fun AccountScreen() {
-    // State variables for username, password, and error message
-    val username = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
-    val errorMessage = remember { mutableStateOf("") }
-
+fun AccountScreen(viewModel: AccountViewModel = viewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -36,17 +33,16 @@ fun AccountScreen() {
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Username field
         BasicTextField(
-            value = username.value,
-            onValueChange = { username.value = it },
+            value = viewModel.username.value,
+            onValueChange = { viewModel.username.value = it },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
                 .background(MaterialTheme.colorScheme.surface, MaterialTheme.shapes.medium)
                 .padding(16.dp),
             decorationBox = { innerTextField ->
-                if (username.value.isEmpty()) {
+                if (viewModel.username.value.isEmpty()) {
                     Text("Username", color = Color.Gray)
                 }
                 innerTextField()
@@ -54,10 +50,9 @@ fun AccountScreen() {
         )
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Password field
         BasicTextField(
-            value = password.value,
-            onValueChange = { password.value = it },
+            value = viewModel.password.value,
+            onValueChange = { viewModel.password.value = it },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
                 .fillMaxWidth()
@@ -65,7 +60,7 @@ fun AccountScreen() {
                 .background(MaterialTheme.colorScheme.surface, MaterialTheme.shapes.medium)
                 .padding(16.dp),
             decorationBox = { innerTextField ->
-                if (password.value.isEmpty()) {
+                if (viewModel.password.value.isEmpty()) {
                     Text("Password", color = Color.Gray)
                 }
                 innerTextField()
@@ -73,30 +68,23 @@ fun AccountScreen() {
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Display error message if it exists
-        if (errorMessage.value.isNotEmpty()) {
+        if (viewModel.errorMessage.value.isNotEmpty()) {
             Text(
-                text = errorMessage.value,
+                text = viewModel.errorMessage.value,
                 color = Color.Red,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
         }
 
-        // Login button
         Button(
-            onClick = {
-                errorMessage.value = "Connection error"
-            },
+            onClick = { viewModel.onLogin() },
             modifier = Modifier.fillMaxWidth().padding(8.dp)
         ) {
             Text("Log in")
         }
 
-        // Create Account button
         Button(
-            onClick = {
-                errorMessage.value = "Connection error"
-            },
+            onClick = { viewModel.onCreateAccount() },
             modifier = Modifier.fillMaxWidth().padding(8.dp)
         ) {
             Text("Create account")
