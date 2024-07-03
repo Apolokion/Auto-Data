@@ -26,27 +26,22 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.auto_data.R
 import com.example.auto_data.data.CarCompany
-import com.example.auto_data.data.carCompanies
 import com.example.auto_data.navigation.ScreenObjects
 import com.example.auto_data.ui.theme.Dimensions.icon_size_small
+import com.example.auto_data.viewmodel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navController: NavHostController) {
-    var isGrid by remember { mutableStateOf(false) }
-
+fun MainScreen(navController: NavHostController, viewModel: MainViewModel = viewModel()) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -66,9 +61,9 @@ fun MainScreen(navController: NavHostController) {
                     }
                 },
                 actions = {
-                    IconButton(onClick = { isGrid = !isGrid }) {
+                    IconButton(onClick = { viewModel.toggleView() }) {
                         Icon(
-                            painter = if (isGrid) painterResource(id = R.drawable.list) else painterResource(
+                            painter = if (viewModel.isGrid.value) painterResource(id = R.drawable.list) else painterResource(
                                 id = R.drawable.menu
                             ),
                             contentDescription = "Toggle View",
@@ -80,19 +75,19 @@ fun MainScreen(navController: NavHostController) {
             )
         },
     ) { innerPadding ->
-        if (isGrid) {
+        if (viewModel.isGrid.value) {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 contentPadding = innerPadding,
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(carCompanies) { carCompany ->
+                items(viewModel.carCompanies) { carCompany ->
                     CarCompanyItem(carCompany, navController, isGrid = true)
                 }
             }
         } else {
             LazyColumn(contentPadding = innerPadding) {
-                items(carCompanies) { carCompany ->
+                items(viewModel.carCompanies) { carCompany ->
                     CarCompanyItem(carCompany, navController, isGrid = false)
                 }
             }
@@ -129,10 +124,7 @@ fun CarCompanyItem(carCompany: CarCompany, navController: NavHostController, isG
                     contentDescription = "Car Icon",
                     modifier = Modifier.size(50.dp)
                 )
-                Spacer(modifier = Modifier
-                    .height(8.dp)
-
-                )
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(text = carCompany.name, style = MaterialTheme.typography.titleSmall)
             }
         } else {
@@ -150,4 +142,3 @@ fun CarCompanyItem(carCompany: CarCompany, navController: NavHostController, isG
         }
     }
 }
-

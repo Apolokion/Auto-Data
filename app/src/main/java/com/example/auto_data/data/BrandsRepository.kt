@@ -4,7 +4,7 @@ import com.example.auto_data.R
 
 data class CarCompany(val name: String, val icon: Int)
 
-val carCompanies = listOf(
+val car_Companies = listOf(
     CarCompany("Acura", R.drawable.acura),
     CarCompany("Alfa Romeo", R.drawable.alfa),
     CarCompany("Aston Martin", R.drawable.aston),
