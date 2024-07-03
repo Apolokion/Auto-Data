@@ -22,7 +22,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.auto_data.viewmodel.AccountScreenViewModel
 
 
-// AccountScreen.kt
 @Composable
 fun AccountScreen(viewModel: AccountScreenViewModel = viewModel()) {
     Column(

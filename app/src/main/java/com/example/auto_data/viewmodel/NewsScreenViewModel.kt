@@ -1,4 +1,3 @@
-// NewsViewModel.kt
 package com.example.auto_data.viewmodel
 
 import androidx.lifecycle.ViewModel
