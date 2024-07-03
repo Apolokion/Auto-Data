@@ -23,7 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.auto_data.R
-import com.example.auto_data.ui.theme.icon_size_normal
+import com.example.auto_data.ui.theme.Dimensions.icon_size_normal
 
 @Composable
 fun TopBar(navController: NavHostController) {

@@ -1,3 +1,4 @@
+// CarModelDescriptionScreen.kt
 package com.example.auto_data.screens
 
 import androidx.compose.foundation.layout.height
@@ -14,12 +15,14 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-
+import com.example.auto_data.ui.theme.Dimensions
+import com.example.auto_data.viewmodel.CarModelDescriptionViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CarModelDescriptionScreen(carModel: String?, navController: NavHostController) {
+fun CarModelDescriptionScreen(carModel: String?, navController: NavHostController, viewModel: CarModelDescriptionViewModel = viewModel()) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -31,7 +34,7 @@ fun CarModelDescriptionScreen(carModel: String?, navController: NavHostControlle
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                     }
                 },
-                modifier = Modifier.height(48.dp)
+                modifier = Modifier.height(Dimensions.padding_xlarge)
             )
         }
     ) { innerPadding ->

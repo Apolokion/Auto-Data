@@ -1,3 +1,4 @@
+// CarModelsScreen.kt
 package com.example.auto_data.screens
 
 import androidx.compose.foundation.clickable
@@ -19,14 +20,15 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.auto_data.data.carModelsMap
 import com.example.auto_data.navigation.ScreenObjects
+import com.example.auto_data.viewmodel.CarModelsScreenViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CarModelsScreen(carCompany: String?, navController: NavHostController) {
-    val carModels = carModelsMap[carCompany] ?: emptyList()
+fun CarModelsScreen(carCompany: String?, navController: NavHostController, viewModel: CarModelsScreenViewModel = viewModel()) {
+    val carModels = viewModel.getCarModels(carCompany)
 
     Scaffold(
         topBar = {
