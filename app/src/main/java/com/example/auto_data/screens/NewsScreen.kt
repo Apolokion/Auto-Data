@@ -1,10 +1,21 @@
+// NewsScreen.kt
 package com.example.auto_data.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,35 +25,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.auto_data.R
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.auto_data.viewmodel.NewsScreenViewModel
 
 @Composable
-fun NewsScreen() {
+fun NewsScreen(viewModel: NewsScreenViewModel = viewModel()) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 0.dp)
     ) {
-        item {
-            NewsItem(
-                "Tesla releases new model",
-                "The new Tesla Model Z is faster, more efficient, and packed with cutting-edge technology.",
-                R.drawable.tesla_news
-            )
-        }
-        item {
-            NewsItem(
-                "Ford announces electric Mustang",
-                "Ford's new Mustang EV promises high performance and zero emissions.",
-                R.drawable.mustang_news
-            )
-        }
-        item {
-            NewsItem(
-                "BMW introduces self-driving feature",
-                "BMW's latest software update includes a fully autonomous driving mode.",
-                R.drawable.bmw_news
-            )
+        items(viewModel.newsItems) { newsItem ->
+            NewsItem(newsItem.title, newsItem.description, newsItem.imageRes)
         }
     }
 }

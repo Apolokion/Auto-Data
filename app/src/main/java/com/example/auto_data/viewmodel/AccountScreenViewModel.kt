@@ -1,9 +1,9 @@
-package com.example.auto_data.viewmodels
+package com.example.auto_data.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 
-class AccountViewModel : ViewModel() {
+class AccountScreenViewModel : ViewModel() {
     val username = mutableStateOf("")
     val password = mutableStateOf("")
     val errorMessage = mutableStateOf("")

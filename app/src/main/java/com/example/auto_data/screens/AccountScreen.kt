@@ -1,7 +1,13 @@
 package com.example.auto_data.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -12,13 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.example.auto_data.viewmodels.AccountViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.auto_data.viewmodel.AccountScreenViewModel
 
 
 // AccountScreen.kt
 @Composable
-fun AccountScreen(viewModel: AccountViewModel = viewModel()) {
+fun AccountScreen(viewModel: AccountScreenViewModel = viewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
