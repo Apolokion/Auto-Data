@@ -1,4 +1,3 @@
-// CarModelDescriptionScreen.kt
 package com.example.auto_data.screens
 
 import androidx.compose.foundation.layout.height

@@ -1,4 +1,3 @@
-// CarModelsScreen.kt
 package com.example.auto_data.screens
 
 import androidx.compose.foundation.clickable
