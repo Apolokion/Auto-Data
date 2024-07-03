@@ -40,7 +40,7 @@ import com.example.auto_data.R
 import com.example.auto_data.data.CarCompany
 import com.example.auto_data.data.carCompanies
 import com.example.auto_data.navigation.ScreenObjects
-import com.example.auto_data.ui.theme.icon_size_small
+import com.example.auto_data.ui.theme.Dimensions.icon_size_small
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
