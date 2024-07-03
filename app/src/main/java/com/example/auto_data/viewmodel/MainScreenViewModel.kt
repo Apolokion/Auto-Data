@@ -1,4 +1,3 @@
-// MainViewModel.kt
 package com.example.auto_data.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
