@@ -2,7 +2,6 @@ package com.example.auto_data.screens
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +20,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -41,6 +41,7 @@ import androidx.navigation.NavHostController
 import com.example.auto_data.R
 import com.example.auto_data.data.CarCompany
 import com.example.auto_data.navigation.ScreenObjects
+import com.example.auto_data.ui.theme.Dimensions
 import com.example.auto_data.ui.theme.Dimensions.icon_size_small
 import com.example.auto_data.viewmodel.MainScreenViewModel
 
@@ -52,7 +53,8 @@ fun MainScreen(
 ) {
 
     val isTopAppBarVisible by viewModel.isTopAppBarVisible
-    val topAppBarOffset by animateDpAsState(targetValue = if (isTopAppBarVisible) 0.dp else (-48).dp,
+    val topAppBarOffset by animateDpAsState(
+        targetValue = if (isTopAppBarVisible) 0.dp else (-48).dp,
         label = "topAppBarOffset"
     )
 
@@ -63,7 +65,7 @@ fun MainScreen(
                     .height(48.dp)
                     .offset(y = topAppBarOffset),
                 colors = TopAppBarDefaults.topAppBarColors(
-                    MaterialTheme.colorScheme.surface,
+                    MaterialTheme.colorScheme.surface
                 ),
                 title = {
                     Box(
@@ -75,7 +77,7 @@ fun MainScreen(
                     ) {
                         Text(
                             "Car Brands",
-                            color = MaterialTheme.colorScheme.onPrimary,
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 },
@@ -110,6 +112,8 @@ fun MainScreen(
             ) {
                 items(viewModel.carCompanies) { carCompany ->
                     CarCompanyItem(carCompany, navController, isGrid = true)
+                    HorizontalDivider(thickness = 1.dp, color = Color.Black)
+
                 }
             }
         } else {
@@ -123,6 +127,7 @@ fun MainScreen(
             ) {
                 items(viewModel.carCompanies) { carCompany ->
                     CarCompanyItem(carCompany, navController, isGrid = false)
+                    HorizontalDivider(thickness = 1.dp, color = Color.Black)
                 }
             }
         }
@@ -131,48 +136,49 @@ fun MainScreen(
 
 @Composable
 fun CarCompanyItem(carCompany: CarCompany, navController: NavHostController, isGrid: Boolean) {
-    val borderModifier = Modifier.border(width = 1.dp, color = Color.Black)
-    val paddingModifier = if (isGrid) {
-        Modifier.padding(8.dp)
-    } else {
-        Modifier.padding(vertical = 12.dp, horizontal = 12.dp)
-    }
-    val clickableModifier = Modifier.clickable {
-        navController.navigate(ScreenObjects.CarModels.createRoute(carCompany.name))
-    }
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .then(borderModifier)
-            .then(paddingModifier)
-            .then(clickableModifier),
-    ) {
-        if (isGrid) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Image(
-                    painter = painterResource(id = carCompany.icon),
-                    contentDescription = "Car Icon",
-                    modifier = Modifier.size(50.dp)
+    if (isGrid) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center,
+            modifier = Modifier
+                .padding(
+                    vertical = Dimensions.padding_normal,
+                    horizontal = Dimensions.padding_small
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(text = carCompany.name, style = MaterialTheme.typography.titleSmall)
-            }
-        } else {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    painter = painterResource(id = carCompany.icon),
-                    contentDescription = "Car Icon",
-                    modifier = Modifier.size(50.dp)
+                .fillMaxWidth()
+                .clickable {
+                    navController.navigate(ScreenObjects.CarModels.createRoute(carCompany.name))
+                }
+        ) {
+            Image(
+                painter = painterResource(id = carCompany.icon),
+                contentDescription = "Car Icon",
+                modifier = Modifier.size(Dimensions.car_icons)
+            )
+            Spacer(modifier = Modifier.height(Dimensions.spacer_normal))
+            Text(text = carCompany.name, style = MaterialTheme.typography.titleSmall)
+        }
+    } else {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    navController.navigate(ScreenObjects.CarModels.createRoute(carCompany.name))
+                }
+                .padding(
+                    vertical = Dimensions.padding_normal,
+                    horizontal = Dimensions.padding_normal
                 )
-                Spacer(modifier = Modifier.width(12.dp))
-                Text(text = carCompany.name, style = MaterialTheme.typography.titleSmall)
-            }
+        ) {
+            Image(
+                painter = painterResource(id = carCompany.icon),
+                contentDescription = "Car Icon",
+                modifier = Modifier.size(Dimensions.car_icons)
+            )
+            Spacer(modifier = Modifier.width(Dimensions.spacer_large))
+            Text(text = carCompany.name, style = MaterialTheme.typography.titleSmall)
         }
     }
 }
