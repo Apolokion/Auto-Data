@@ -1,4 +1,4 @@
-package com.example.auto_data.screens
+package com.example.auto_data.ui.carModelDescription
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Box
@@ -25,7 +25,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.auto_data.R
 import com.example.auto_data.ui.theme.Dimensions.icon_size_normal
-import com.example.auto_data.viewmodel.CarModelDescriptionViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

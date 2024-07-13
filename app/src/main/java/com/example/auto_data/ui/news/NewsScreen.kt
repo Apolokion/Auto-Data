@@ -1,4 +1,4 @@
-package com.example.auto_data.screens
+package com.example.auto_data.ui.news
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -25,7 +25,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.auto_data.viewmodel.NewsScreenViewModel
 
 @Composable
 fun NewsScreen(viewModel: NewsScreenViewModel = viewModel()) {
@@ -35,13 +34,13 @@ fun NewsScreen(viewModel: NewsScreenViewModel = viewModel()) {
             .padding(horizontal = 0.dp)
     ) {
         items(viewModel.newsItems) { newsItem ->
-            NewsItem(newsItem.title, newsItem.description, newsItem.imageRes)
+            News_Item(newsItem.title, newsItem.description, newsItem.imageRes)
         }
     }
 }
 
 @Composable
-fun NewsItem(title: String, description: String, imageRes: Int) {
+fun News_Item(title: String, description: String, imageRes: Int) {
     Card(
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(8.dp),

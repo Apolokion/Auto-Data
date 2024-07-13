@@ -1,4 +1,4 @@
-package com.example.auto_data.viewmodel
+package com.example.auto_data.ui.main
 
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
