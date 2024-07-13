@@ -1,9 +1,8 @@
-package com.example.auto_data.screens
+package com.example.auto_data.ui.settings
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.auto_data.viewmodel.SettingsScreenViewModel
 
 @Composable
 fun SettingsScreen(viewModel: SettingsScreenViewModel = viewModel()) {

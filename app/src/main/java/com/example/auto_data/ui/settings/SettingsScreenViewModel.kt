@@ -1,4 +1,4 @@
-package com.example.auto_data.viewmodel
+package com.example.auto_data.ui.settings
 
 import androidx.lifecycle.ViewModel
 

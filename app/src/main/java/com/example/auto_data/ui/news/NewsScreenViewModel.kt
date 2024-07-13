@@ -1,4 +1,4 @@
-package com.example.auto_data.viewmodel
+package com.example.auto_data.ui.news
 
 import androidx.lifecycle.ViewModel
 import com.example.auto_data.R

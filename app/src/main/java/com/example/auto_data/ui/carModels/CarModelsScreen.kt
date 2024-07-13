@@ -1,4 +1,4 @@
-package com.example.auto_data.screens
+package com.example.auto_data.ui.carModels
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
@@ -41,7 +41,7 @@ import com.example.auto_data.R
 import com.example.auto_data.data.CarModel
 import com.example.auto_data.navigation.ScreenObjects
 import com.example.auto_data.ui.theme.Dimensions
-import com.example.auto_data.viewmodel.CarModelsScreenViewModel
+import com.example.auto_data.ui.theme.Dimensions.icon_size_normal
 
 @Composable
 fun CarModelsScreen(

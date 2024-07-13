@@ -1,4 +1,4 @@
-package com.example.auto_data.screens
+package com.example.auto_data.ui.account
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.auto_data.viewmodel.AccountScreenViewModel
 
 
 @Composable

@@ -16,14 +16,14 @@ import androidx.navigation.compose.rememberNavController
 import com.example.auto_data.navigation.BottomNavigationBar
 import com.example.auto_data.navigation.ScreenObjects
 import com.example.auto_data.navigation.TopBar
-import com.example.auto_data.screens.AccountScreen
-import com.example.auto_data.screens.CarModelDescriptionScreen
-import com.example.auto_data.screens.CarModelsScreen
-import com.example.auto_data.screens.CompareScreen
-import com.example.auto_data.screens.MainScreen
-import com.example.auto_data.screens.NewsScreen
-import com.example.auto_data.screens.SettingsScreen
-import com.example.auto_data.screens.WishListScreen
+import com.example.auto_data.ui.account.AccountScreen
+import com.example.auto_data.ui.carModelDescription.CarModelDescriptionScreen
+import com.example.auto_data.ui.carModels.CarModelsScreen
+import com.example.auto_data.ui.compare.CompareScreen
+import com.example.auto_data.ui.main.MainScreen
+import com.example.auto_data.ui.news.NewsScreen
+import com.example.auto_data.ui.settings.SettingsScreen
+import com.example.auto_data.ui.wishList.WishListScreen
 import com.example.auto_data.ui.theme.AutoDataTheme
 
 class MainActivity : ComponentActivity() {
