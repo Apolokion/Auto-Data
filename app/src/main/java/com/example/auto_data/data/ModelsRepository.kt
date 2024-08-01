@@ -1,16 +1,29 @@
 package com.example.auto_data.data
 
-data class CarModel(val name: String)
+import com.example.auto_data.R
+
+data class CarModel(val name: String, val icon: Int? = null)
 
 val carModelsMap = mapOf(
     "Acura" to listOf(
-        CarModel("ILX"),
-        CarModel("MDX"),
-        CarModel("NSX"),
-        CarModel("RDX"),
-        CarModel("RLX"),
-        CarModel("TLX")
+        CarModel("CL", R.drawable.model_2nd_acura_cl),
+        CarModel("CSX", R.drawable.model_acura_csx),
+        CarModel("EL", R.drawable.model_acura_el),
+        CarModel("ILX", R.drawable.model_2019_acura_ilx),
+        CarModel("Integra", R.drawable.model_2024_acura_integra),
+        CarModel("MDX", R.drawable.model_2022_acura_mdx),
+        CarModel("NSX", R.drawable.model_2017_acura_nsx),
+        CarModel("RDX", R.drawable.model_2019_acura_rdx),
+        CarModel("RL", R.drawable.model_2005_acura_rl),
+        CarModel("RLX", R.drawable.model_2014_acura_rlx),
+        CarModel("RSX", R.drawable.model_acura_rsx),
+        CarModel("SLX", R.drawable.model_acura_slx),
+        CarModel("TL", R.drawable.model_2008_acura_tl),
+        CarModel("TLX", R.drawable.model_2024_acura_tlx),
+        CarModel("TSX", R.drawable.model_2010_acura_tsx),
+        CarModel("ZDX", R.drawable.model_2024_acura_zdx),
     ),
+
     "Alfa Romeo" to listOf(
         CarModel("4C"), CarModel("Giulia"), CarModel("Stelvio"), CarModel("Tonale")
     ),
@@ -164,5 +177,4 @@ val carModelsMap = mapOf(
     "Volvo" to listOf(
         CarModel("S60"), CarModel("S90"), CarModel("XC40")
     )
-
 )
