@@ -1,6 +1,7 @@
 package com.example.auto_data.screens
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -26,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,59 +41,44 @@ import com.example.auto_data.R
 import com.example.auto_data.data.CarModel
 import com.example.auto_data.navigation.ScreenObjects
 import com.example.auto_data.ui.theme.Dimensions
-import com.example.auto_data.ui.theme.Dimensions.icon_size_normal
 import com.example.auto_data.viewmodel.CarModelsScreenViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CarModelsScreen(
     carCompany: String?,
     navController: NavHostController,
     viewModel: CarModelsScreenViewModel = viewModel()
 ) {
+    // Observe car models from ViewModel
     val carModels by viewModel.carModels
+
+    // Observe top app bar visibility state from ViewModel
     val isTopAppBarVisible by viewModel.isTopAppBarVisible
+
+    // Animate the top app bar offset based on visibility
     val topAppBarOffset by animateDpAsState(
-        targetValue = if (isTopAppBarVisible) 0.dp else (-48).dp,
+        targetValue = if (isTopAppBarVisible) 0.dp else -Dimensions.topAppBarHeight,
         label = "topAppBarOffset"
     )
 
+    // Remember the state of the LazyColumn
+    val listState = rememberLazyListState()
+
+    // Load car models when the screen is composed
     viewModel.getCarModels(carCompany)
+
+    // Observe scroll state changes to hide/show the top app bar
+    LaunchedEffect(listState) {
+        viewModel.observeScrollState(listState)
+        }
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                modifier = Modifier
-                    .height(48.dp)
-                    .offset(y = topAppBarOffset),
-                colors = TopAppBarDefaults.topAppBarColors(
-                    MaterialTheme.colorScheme.surface
-                ),
-                title = {
-                    Box(
-                        modifier = Modifier.fillMaxHeight(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "$carCompany models",
-                            color = MaterialTheme.colorScheme.onPrimary
-                        )
-                    }
-                },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            painterResource(id = R.drawable.arrow_back),
-                            contentDescription = "Back",
-                            modifier = Modifier.size(icon_size_normal),
-                            tint = MaterialTheme.colorScheme.onPrimary
-                        )
-                    }
-                },
-            )
+            CarModelsTopAppBar(topAppBarOffset.value, navController, carCompany)
         }
     ) { innerPadding ->
         LazyColumn(
+            state = listState,
             contentPadding = innerPadding,
             modifier = Modifier.fillMaxSize()
         ) {
@@ -104,6 +92,7 @@ fun CarModelsScreen(
     }
 }
 
+
 @Composable
 fun CarModelItem(carModel: CarModel, navController: NavHostController) {
     Row(
@@ -116,16 +105,16 @@ fun CarModelItem(carModel: CarModel, navController: NavHostController) {
                 )
             }
             .padding(
-                vertical = Dimensions.padding_normal,
-                horizontal = Dimensions.padding_normal
+                horizontal = Dimensions.padding_small
             )
     ) {
-        Icon(
-            painter = painterResource(id = R.drawable.car),
-            contentDescription = null,
-            modifier = Modifier.size(24.dp),
-            tint = Color.Gray
-        )
+        carModel.icon?.let {
+            Image(
+                painter = painterResource(id = carModel.icon),
+                contentDescription = null,
+                modifier = Modifier.size(Dimensions.model_image)
+            )
+        }
         Spacer(modifier = Modifier.width(Dimensions.spacer_large))
         Text(
             text = carModel.name,
@@ -134,3 +123,42 @@ fun CarModelItem(carModel: CarModel, navController: NavHostController) {
         )
     }
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CarModelsTopAppBar(
+    topAppBarOffset: Float,
+    navController: NavHostController,
+    carCompany: String?
+) {
+    TopAppBar(
+        modifier = Modifier
+            .height(Dimensions.topAppBarHeight)
+            .offset(y = topAppBarOffset.dp),
+        colors = TopAppBarDefaults.topAppBarColors(
+            MaterialTheme.colorScheme.surface
+        ),
+        title = {
+            Box(
+                modifier = Modifier.fillMaxHeight(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "$carCompany models",
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            }
+        },
+        navigationIcon = {
+            IconButton(onClick = { navController.popBackStack() }) {
+                Icon(
+                    painterResource(id = R.drawable.arrow_back),
+                    contentDescription = "Back",
+                    modifier = Modifier.size(Dimensions.icon_size_normal),
+                    tint = MaterialTheme.colorScheme.onPrimary
+                )
+            }
+        },
+    )
+}
+
