@@ -1,4 +1,4 @@
-package com.example.auto_data.viewmodel
+package com.example.auto_data.ui.carModels
 
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.mutableStateOf
