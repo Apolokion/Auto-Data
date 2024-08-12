@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -62,7 +63,7 @@ fun WishlistItem(car: Car, onRemove: (Car) -> Unit) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(8.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Image(
@@ -73,6 +74,7 @@ fun WishlistItem(car: Car, onRemove: (Car) -> Unit) {
                     .height(100.dp),
                 contentScale = ContentScale.Crop
             )
+            Spacer(modifier = Modifier.width(4.dp))
             Column {
                 Text(text = car.brand, style = MaterialTheme.typography.bodyLarge)
                 Text(text = car.model, style = MaterialTheme.typography.bodyMedium)
