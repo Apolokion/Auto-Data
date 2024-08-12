@@ -1,5 +1,7 @@
 package com.example.auto_data.ui.news_screen
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,8 +21,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -35,19 +39,22 @@ fun NewsScreen(viewModel: NewsScreenViewModel = viewModel()) {
             .padding(horizontal = 0.dp)
     ) {
         items(viewModel.newsItems) { newsItem ->
-            News_Item(newsItem.title, newsItem.description, newsItem.imageRes)
+            News_Item(newsItem.title, newsItem.description, newsItem.imageRes, newsItem.link)
         }
     }
 }
 
 @Composable
-fun News_Item(title: String, description: String, imageRes: Int) {
+fun News_Item(title: String, description: String, imageRes: Int, link: String) {
+
+    val context = LocalContext.current
+
     Card(
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(8.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 6.dp)
+            .padding(vertical = 2.dp)
     ) {
         Column(
             modifier = Modifier.padding(10.dp)
@@ -72,10 +79,12 @@ fun News_Item(title: String, description: String, imageRes: Int) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
+                    .clip(RoundedCornerShape(8.dp))
             )
             Spacer(modifier = Modifier.height(6.dp))
             Button(
-                onClick = { /* Handle read more action */ },
+                onClick = { val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
+                    context.startActivity(intent) },
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 modifier = Modifier.align(Alignment.End)
             ) {
