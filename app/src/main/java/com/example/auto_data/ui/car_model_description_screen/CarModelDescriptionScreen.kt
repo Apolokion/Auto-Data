@@ -1,4 +1,4 @@
-package com.example.auto_data.ui.carModelDescription
+package com.example.auto_data.ui.car_model_description_screen
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Box

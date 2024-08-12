@@ -31,15 +31,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.auto_data.R
-import com.example.auto_data.ui.account.AccountScreen
-import com.example.auto_data.ui.carModelDescription.CarModelDescriptionScreen
-import com.example.auto_data.ui.carModels.CarModelsScreen
-import com.example.auto_data.ui.compare.CompareScreen
-import com.example.auto_data.ui.main.MainScreen
-import com.example.auto_data.ui.news.NewsScreen
-import com.example.auto_data.ui.settings.SettingsScreen
+import com.example.auto_data.ui.account_screen.AccountScreen
+import com.example.auto_data.ui.car_model_description_screen.CarModelDescriptionScreen
+import com.example.auto_data.ui.car_models_screen.CarModelsScreen
+import com.example.auto_data.ui.compare_screen.CompareScreen
+import com.example.auto_data.ui.main_screen.MainScreen
+import com.example.auto_data.ui.news_screen.NewsScreen
+import com.example.auto_data.ui.settings_screen.SettingsScreen
 import com.example.auto_data.ui.theme.Dimensions.icon_size_normal
-import com.example.auto_data.ui.wishList.WishListScreen
+import com.example.auto_data.ui.wishlist_screen.WishlistScreen
 
 @Composable
 fun Main_Navigation() {
@@ -72,7 +72,7 @@ fun Main_Navigation() {
                     SettingsScreen()
                 }
                 composable(ScreenObjects.WishList.route) {
-                    WishListScreen()
+                    WishlistScreen()
                 }
                 composable(ScreenObjects.CarModels.route) { backStackEntry ->
                     val carCompany = backStackEntry.arguments?.getString("carCompany")

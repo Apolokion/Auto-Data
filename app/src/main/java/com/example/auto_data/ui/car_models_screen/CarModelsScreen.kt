@@ -1,4 +1,4 @@
-package com.example.auto_data.ui.carModels
+package com.example.auto_data.ui.car_models_screen
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
