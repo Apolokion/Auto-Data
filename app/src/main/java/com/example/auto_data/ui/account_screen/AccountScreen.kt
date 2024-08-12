@@ -1,4 +1,4 @@
-package com.example.auto_data.ui.account
+package com.example.auto_data.ui.account_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,7 +31,7 @@ fun AccountScreen(viewModel: AccountScreenViewModel = viewModel()) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Log in",
+            text = "Login",
             style = MaterialTheme.typography.displaySmall,
             color = MaterialTheme.colorScheme.primary
         )
@@ -47,7 +47,7 @@ fun AccountScreen(viewModel: AccountScreenViewModel = viewModel()) {
                 .padding(16.dp),
             decorationBox = { innerTextField ->
                 if (viewModel.username.value.isEmpty()) {
-                    Text("Username", color = Color.Gray)
+                    Text("Username", color = MaterialTheme.colorScheme.onPrimaryContainer)
                 }
                 innerTextField()
             }
@@ -65,7 +65,7 @@ fun AccountScreen(viewModel: AccountScreenViewModel = viewModel()) {
                 .padding(16.dp),
             decorationBox = { innerTextField ->
                 if (viewModel.password.value.isEmpty()) {
-                    Text("Password", color = Color.Gray)
+                    Text("Password", color = MaterialTheme.colorScheme.onPrimaryContainer)
                 }
                 innerTextField()
             }
@@ -84,7 +84,7 @@ fun AccountScreen(viewModel: AccountScreenViewModel = viewModel()) {
             onClick = { viewModel.onLogin() },
             modifier = Modifier.fillMaxWidth().padding(8.dp)
         ) {
-            Text("Log in")
+            Text("Login")
         }
 
         Button(

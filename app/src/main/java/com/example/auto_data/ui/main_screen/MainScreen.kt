@@ -1,4 +1,4 @@
-package com.example.auto_data.ui.main
+package com.example.auto_data.ui.main_screen
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
@@ -75,7 +75,7 @@ fun MainScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            "Car Brands",
+                            "Manufacturers",
                             color = MaterialTheme.colorScheme.onPrimary
                         )
                     }

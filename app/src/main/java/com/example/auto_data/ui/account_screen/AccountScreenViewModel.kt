@@ -1,4 +1,4 @@
-package com.example.auto_data.ui.account
+package com.example.auto_data.ui.account_screen
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
