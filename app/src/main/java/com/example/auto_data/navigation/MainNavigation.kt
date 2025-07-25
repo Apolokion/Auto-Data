@@ -31,15 +31,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.auto_data.R
-import com.example.auto_data.ui.account_screen.AccountScreen
-import com.example.auto_data.ui.car_model_description_screen.CarModelDescriptionScreen
-import com.example.auto_data.ui.car_models_screen.CarModelsScreen
-import com.example.auto_data.ui.compare_screen.CompareScreen
-import com.example.auto_data.ui.main_screen.MainScreen
-import com.example.auto_data.ui.news_screen.NewsScreen
-import com.example.auto_data.ui.settings_screen.SettingsScreen
+import com.example.auto_data.ui.screen_accounts.AccountScreen
+import com.example.auto_data.ui.screen_car_model_description.CarModelDescriptionScreen
+import com.example.auto_data.ui.screen_car_models.CarModelsScreen
+import com.example.auto_data.ui.screen_compare_cars.CompareScreen
+import com.example.auto_data.ui.screen_main.MainScreen
+import com.example.auto_data.ui.screen_news.NewsScreen
+import com.example.auto_data.ui.screen_settings.SettingsScreen
 import com.example.auto_data.ui.theme.Dimensions.icon_size_normal
-import com.example.auto_data.ui.wishlist_screen.WishlistScreen
+import com.example.auto_data.ui.screen_wishlist.WishlistScreen
 
 @Composable
 fun Main_Navigation() {

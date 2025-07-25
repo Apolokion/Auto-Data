@@ -1,4 +1,4 @@
-package com.example.auto_data.ui.news_screen
+package com.example.auto_data.ui.screen_news
 
 import androidx.lifecycle.ViewModel
 import com.example.auto_data.R
