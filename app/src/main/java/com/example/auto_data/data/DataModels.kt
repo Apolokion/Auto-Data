@@ -1,4 +1,4 @@
-package com.example.auto_data.api
+package com.example.auto_data.data
 
 import kotlinx.serialization.Serializable
 

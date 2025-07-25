@@ -4,6 +4,8 @@ import com.example.auto_data.R
 
 data class CarCompany(val name: String, val icon: Int)
 
+//Hardcoded List of Car Brands
+//Soon immigration to Supabase API
 val car_Companies = listOf(
     CarCompany("Acura", R.drawable.acura),
     CarCompany("Alfa Romeo", R.drawable.alfa),
@@ -57,5 +59,4 @@ val car_Companies = listOf(
     CarCompany("Toyota", R.drawable.toyota),
     CarCompany("Volkswagen", R.drawable.vw),
     CarCompany("Volvo", R.drawable.volvo),
-    // Add more car companies here
 )

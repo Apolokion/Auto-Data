@@ -1,4 +1,4 @@
-package com.example.auto_data.ui.compare_screen
+package com.example.auto_data.ui.screen_compare_cars
 
 import androidx.lifecycle.ViewModel
 

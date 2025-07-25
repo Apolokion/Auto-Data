@@ -1,4 +1,4 @@
-package com.example.auto_data.ui.settings_screen
+package com.example.auto_data.ui.screen_settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

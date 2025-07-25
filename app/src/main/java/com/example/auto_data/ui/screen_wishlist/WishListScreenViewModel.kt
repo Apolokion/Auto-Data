@@ -1,4 +1,4 @@
-package com.example.auto_data.ui.wishlist_screen
+package com.example.auto_data.ui.screen_wishlist
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel

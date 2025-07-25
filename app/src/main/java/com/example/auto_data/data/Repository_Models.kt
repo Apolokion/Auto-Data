@@ -4,6 +4,8 @@ import com.example.auto_data.R
 
 data class CarModel(val name: String, val icon: Int? = null)
 
+//Hardcoded List of Car Models
+//Soon immigration to Supabase API
 val carModelsMap = mapOf(
     "Acura" to listOf(
         CarModel("CL", R.drawable.model_2nd_acura_cl),

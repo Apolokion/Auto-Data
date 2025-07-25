@@ -1,4 +1,4 @@
-package com.example.auto_data.ui.account_screen
+package com.example.auto_data.ui.screen_accounts
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
