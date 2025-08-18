@@ -168,7 +168,7 @@ val carModelsMap = mapOf(
         CarModel("Baleno"), CarModel("Ignis"), CarModel("Swift")
     ),
     "Tesla" to listOf(
-        CarModel("com.example.auto_data.api.Model 3"), CarModel("com.example.auto_data.api.Model S"), CarModel("com.example.auto_data.api.Model X")
+        CarModel("Model 3"), CarModel("Model S"), CarModel("Model X")
     ),
     "Toyota" to listOf(
         CarModel("4Runner"), CarModel("Camry"), CarModel("Corolla")
