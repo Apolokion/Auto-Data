@@ -69,13 +69,21 @@ dependencies {
     // Coil
     implementation (libs.coil.compose)
 
+    // Navigation
     implementation(libs.androidx.navigation.compose)
 
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Supabase API
+    implementation("io.github.jan-tennert.supabase:realtime-kt:3.2.2")
+    implementation("io.github.jan-tennert.supabase:postgrest-kt:3.2.2")
+    implementation("io.github.jan-tennert.supabase:auth-kt:3.2.2")
+    implementation("io.ktor:ktor-client-okhttp:3.2.3")
 }
