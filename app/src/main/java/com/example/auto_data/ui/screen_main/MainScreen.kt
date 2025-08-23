@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,6 +20,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -33,13 +35,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import coil.compose.rememberAsyncImagePainter
 import com.example.auto_data.R
-import com.example.auto_data.data.CarCompany
 import com.example.auto_data.navigation.ScreenObjects
 import com.example.auto_data.ui.theme.Dimensions
 import com.example.auto_data.ui.theme.Dimensions.icon_size_small
@@ -56,6 +60,10 @@ fun MainScreen(
         targetValue = if (isTopAppBarVisible) 0.dp else (-48).dp,
         label = "topAppBarOffset"
     )
+
+    val carBrands by viewModel.carBrands
+    val isLoading by viewModel.isLoading
+    val error by viewModel.error
 
     Scaffold(
         topBar = {
@@ -98,43 +106,95 @@ fun MainScreen(
 
         },
     ) { innerPadding ->
-        if (viewModel.isGrid.value) {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = innerPadding,
+        // Loading Indicator
+        if (isLoading) {
+            Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .onGloballyPositioned {
-                        viewModel.updateTopAppBarVisibility()
-                    },
-                state = viewModel.lazyGridState
+                    .padding(innerPadding),
+                contentAlignment = Alignment.Center
             ) {
-                items(viewModel.carCompanies) { carCompany ->
-                    CarCompanyItem(carCompany, navController, isGrid = true)
-                    HorizontalDivider(thickness = 1.dp, color = Color.Black)
-
+                CircularProgressIndicator()
+            }
+        }
+        // In case Error
+        else if (error != null) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = error!!,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "Click here to reload",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.clickable { viewModel.refresh() }
+                    )
                 }
             }
-        } else {
-            LazyColumn(
-                contentPadding = innerPadding,
-                modifier = Modifier
-                    .onGloballyPositioned {
-                        viewModel.updateTopAppBarVisibility()
-                    },
-                state = viewModel.lazyListState
-            ) {
-                items(viewModel.carCompanies) { carCompany ->
-                    CarCompanyItem(carCompany, navController, isGrid = false)
-                    HorizontalDivider(thickness = 1.dp, color = Color.Black)
+        }
+        // Showing Data
+        else if (carBrands.isNotEmpty()) {
+            if (viewModel.isGrid.value) {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    contentPadding = innerPadding,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .onGloballyPositioned {
+                            viewModel.updateTopAppBarVisibility()
+                        },
+                    state = viewModel.lazyGridState
+                ) {
+                    items(carBrands) { carBrand ->
+                        CarBrandItem(carBrand, navController, isGrid = true)
+                        HorizontalDivider(thickness = 1.dp, color = Color.Black)
+                    }
                 }
+            } else {
+                LazyColumn(
+                    contentPadding = innerPadding,
+                    modifier = Modifier
+                        .onGloballyPositioned {
+                            viewModel.updateTopAppBarVisibility()
+                        },
+                    state = viewModel.lazyListState
+                ) {
+                    items(carBrands) { carBrand ->
+                        CarBrandItem(carBrand, navController, isGrid = false)
+                        HorizontalDivider(thickness = 1.dp, color = Color.Black)
+                    }
+                }
+            }
+        }
+        // Else - Empty List
+        else {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "No data",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
         }
     }
 }
 
 @Composable
-fun CarCompanyItem(carCompany: CarCompany, navController: NavHostController, isGrid: Boolean) {
+fun CarBrandItem(carBrand: com.example.auto_data.network.CarBrand, navController: NavHostController, isGrid: Boolean) {
 
     if (isGrid) {
         Column(
@@ -147,16 +207,39 @@ fun CarCompanyItem(carCompany: CarCompany, navController: NavHostController, isG
                 )
                 .fillMaxWidth()
                 .clickable {
-                    navController.navigate(ScreenObjects.CarModels.createRoute(carCompany.name))
+                    navController.navigate(ScreenObjects.CarModels.createRoute(carBrand.brandName ?: ""))
                 }
         ) {
-            Image(
-                painter = painterResource(id = carCompany.icon),
-                contentDescription = "Car Icon",
-                modifier = Modifier.size(Dimensions.car_icons)
-            )
+            Box(
+                modifier = Modifier
+                    .size(80.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                if (!carBrand.icon.isNullOrEmpty()) {
+                    Image(
+                        painter = rememberAsyncImagePainter(carBrand.icon),
+                        contentDescription = "Car Brand Icon",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .aspectRatio(1f),
+                        contentScale = ContentScale.Fit
+                    )
+                } else {
+                    Image(
+                        painter = painterResource(id = R.drawable.car),
+                        contentDescription = "Default Car Icon",
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Fit
+                    )
+                }
+            }
             Spacer(modifier = Modifier.height(Dimensions.spacer_normal))
-            Text(text = carCompany.name, style = MaterialTheme.typography.titleSmall)
+            Text(
+                text = carBrand.brandName ?: "Unknown Brand",
+                style = MaterialTheme.typography.titleMedium,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     } else {
         Row(
@@ -164,20 +247,41 @@ fun CarCompanyItem(carCompany: CarCompany, navController: NavHostController, isG
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
-                    navController.navigate(ScreenObjects.CarModels.createRoute(carCompany.name))
+                    navController.navigate(ScreenObjects.CarModels.createRoute(carBrand.brandName ?: ""))
                 }
                 .padding(
                     vertical = Dimensions.padding_normal,
                     horizontal = Dimensions.padding_normal
                 )
         ) {
-            Image(
-                painter = painterResource(id = carCompany.icon),
-                contentDescription = "Car Icon",
-                modifier = Modifier.size(Dimensions.car_icons)
-            )
+            Box(
+                modifier = Modifier
+                    .size(80.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                if (!carBrand.icon.isNullOrEmpty()) {
+                    Image(
+                        painter = rememberAsyncImagePainter(carBrand.icon),
+                        contentDescription = "Car Brand Icon",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .aspectRatio(1f),
+                        contentScale = ContentScale.Fit
+                    )
+                } else {
+                    Image(
+                        painter = painterResource(id = R.drawable.car),
+                        contentDescription = "Default Car Icon",
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Fit
+                    )
+                }
+            }
             Spacer(modifier = Modifier.width(Dimensions.spacer_large))
-            Text(text = carCompany.name, style = MaterialTheme.typography.titleSmall)
+            Text(
+                text = carBrand.brandName ?: "Unknown Brand",
+                style = MaterialTheme.typography.titleMedium
+            )
         }
     }
 }
