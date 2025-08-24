@@ -7,18 +7,39 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.auto_data.data.CarModel
 import com.example.auto_data.data.carModelsMap
+import com.example.auto_data.network.SupabaseRepository
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 
 class CarModelsScreenViewModel : ViewModel() {
+    private val repository = SupabaseRepository()
 
-    val carModels = mutableStateOf<List<CarModel>>(emptyList())
+    val carModels = mutableStateOf<List<com.example.auto_data.network.CarModel>>(emptyList())
+    val isLoading = mutableStateOf(false)
+    val error = mutableStateOf<String?>(null)
     val isTopAppBarVisible = mutableStateOf(true)
 
     fun getCarModels(carCompany: String?) {
-        carCompany?.let {
-            carModels.value = carModelsMap[it] ?: emptyList()
+        if (carCompany.isNullOrEmpty()) return
+
+        isLoading.value = true
+        error.value = null
+
+        viewModelScope.launch {
+            try {
+                val allModels = repository.getAllCarModels()
+
+                val filteredModels = allModels.filter { model ->
+                    model.brandName.equals(carCompany, ignoreCase = true)
+                }
+
+                carModels.value = filteredModels
+            } catch (e: Exception) {
+                error.value = "Error loading models: ${e.message}"
+            } finally {
+                isLoading.value = false
+            }
         }
     }
 
@@ -30,6 +51,10 @@ class CarModelsScreenViewModel : ViewModel() {
                     isTopAppBarVisible.value = firstVisibleItemIndex == 0
                 }
         }
+    }
+
+    fun refresh(carCompany: String?) {
+        getCarModels(carCompany)
     }
 
 }
