@@ -32,10 +32,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.auto_data.R
 import com.example.auto_data.ui.screen_accounts.AccountScreen
-import com.example.auto_data.ui.screen_car_model_description.CarModelDescriptionScreen
-import com.example.auto_data.ui.screen_car_models.CarModelsScreen
+import com.example.auto_data.ui.screen_main_car_models.CarModelsScreen
 import com.example.auto_data.ui.screen_compare_cars.CompareScreen
 import com.example.auto_data.ui.screen_main.MainScreen
+import com.example.auto_data.ui.screen_main_car_generations.CarGenerationsScreen
 import com.example.auto_data.ui.screen_news.NewsScreen
 import com.example.auto_data.ui.screen_settings.SettingsScreen
 import com.example.auto_data.ui.theme.Dimensions.icon_size_normal
@@ -78,9 +78,11 @@ fun Main_Navigation() {
                     val carCompany = backStackEntry.arguments?.getString("carCompany")
                     CarModelsScreen(carCompany, navController)
                 }
-                composable(ScreenObjects.CarModelDescription.route) { backStackEntry ->
-                    val carModel = backStackEntry.arguments?.getString("carModel")
-                    CarModelDescriptionScreen(carModel, navController)
+                composable(ScreenObjects.CarGenerations.route) { backStackEntry ->
+                    val carModelId = backStackEntry.arguments?.getString("carModelId")
+                    val carModelName = backStackEntry.arguments?.getString("carModelName")
+                    val carBrand = backStackEntry.arguments?.getString("carBrand")
+                    CarGenerationsScreen(carModelId, carModelName, carBrand, navController)
                 }
             }
         }
@@ -99,13 +101,11 @@ fun TopBar(navController: NavHostController) {
         Box(
             modifier = Modifier.weight(1f),
             contentAlignment = Alignment.CenterStart
-        ) {
-            // Your navigation icon here
-        }
+        ) {}
 
         Box(
             modifier = Modifier.weight(1f),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.CenterStart
         ) {
             Image(
                 painter = painterResource(id = R.drawable.auto_data_name),

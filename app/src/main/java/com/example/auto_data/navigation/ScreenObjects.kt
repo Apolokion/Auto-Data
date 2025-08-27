@@ -10,9 +10,8 @@ sealed class ScreenObjects(val route: String) {
     data object CarModels : ScreenObjects("car_models/{carCompany}") {
         fun createRoute(carCompany: String) = "car_models/$carCompany"
     }
-
-    data object CarModelDescription : ScreenObjects("car_model_description/{carModel}") {
-        fun createRoute(carModel: String) = "car_model_description/$carModel"
+    data object CarGenerations : ScreenObjects("car_generations/{carModelId}/{carModelName}/{carBrand}") {
+        fun createRoute(carModelId: String, carModelName: String, carBrand: String) =
+            "car_generations/$carModelId/$carModelName/$carBrand"
     }
-
 }

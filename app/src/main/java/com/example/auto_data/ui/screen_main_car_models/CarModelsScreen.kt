@@ -1,4 +1,4 @@
-package com.example.auto_data.ui.screen_car_models
+package com.example.auto_data.ui.screen_main_car_models
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
@@ -43,7 +43,6 @@ import com.example.auto_data.R
 import com.example.auto_data.navigation.ScreenObjects
 import com.example.auto_data.ui.theme.Dimensions
 
-
 @Composable
 fun CarModelsScreen(
     carCompany: String?,
@@ -54,7 +53,6 @@ fun CarModelsScreen(
     val isLoading by viewModel.isLoading
     val error by viewModel.error
     val isTopAppBarVisible by viewModel.isTopAppBarVisible
-
 
     val topAppBarOffset by animateDpAsState(
         targetValue = if (isTopAppBarVisible) 0.dp else -Dimensions.topAppBarHeight,
@@ -73,13 +71,14 @@ fun CarModelsScreen(
     // Observe scroll state changes to hide/show the top app bar
     LaunchedEffect(listState) {
         viewModel.observeScrollState(listState)
-        }
+    }
 
     Scaffold(
         topBar = {
             CarModelsTopAppBar(topAppBarOffset.value, navController, carCompany)
         }
     ) { innerPadding ->
+
         // Loading Indicator
         if (isLoading) {
             Box(
@@ -108,7 +107,7 @@ fun CarModelsScreen(
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "Click here to reload",
+                        text = "Click to retry",
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.clickable {
                             viewModel.refresh(carCompany)
@@ -132,7 +131,7 @@ fun CarModelsScreen(
                 }
             }
         }
-        // Showing Empty List
+        // Empty List if no Data
         else if (!isLoading) {
             Box(
                 modifier = Modifier
@@ -142,7 +141,7 @@ fun CarModelsScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "No models for $carCompany",
+                    text = "No models found for $carCompany",
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
@@ -150,20 +149,23 @@ fun CarModelsScreen(
     }
 }
 
-
 @Composable
 fun CarModelItem(carModel: com.example.auto_data.network.CarModel, navController: NavHostController) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .clickable {
                 navController.navigate(
-                    ScreenObjects.CarModelDescription.createRoute(carModel.modelName ?: "")
+                    ScreenObjects.CarGenerations.createRoute(
+                        carModelId = carModel.id.toString(),
+                        carModelName = carModel.modelName ?: "",
+                        carBrand = carModel.brandName ?: ""
+                    )
                 )
             }
             .padding(
-                horizontal = Dimensions.padding_small
+                horizontal = Dimensions.padding_normal
             )
     ) {
         if (!carModel.urlPictures.isNullOrEmpty()) {
@@ -222,15 +224,14 @@ fun CarModelsTopAppBar(
             ) {
                 Text(
                     text = "$carCompany models",
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    style = MaterialTheme.typography.titleMedium,
-                    )
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
             }
         },
         navigationIcon = {
             IconButton(onClick = { navController.popBackStack() }) {
                 Icon(
-                    painterResource(id = R.drawable.arrow_back),
+                    painter = painterResource(id = R.drawable.arrow_back),
                     contentDescription = "Back",
                     modifier = Modifier.size(Dimensions.icon_size_normal),
                     tint = MaterialTheme.colorScheme.onPrimary
@@ -239,4 +240,3 @@ fun CarModelsTopAppBar(
         },
     )
 }
-
