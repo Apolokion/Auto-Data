@@ -35,6 +35,7 @@ import com.example.auto_data.ui.screen_accounts.AccountScreen
 import com.example.auto_data.ui.screen_main_car_models.CarModelsScreen
 import com.example.auto_data.ui.screen_compare_cars.CompareScreen
 import com.example.auto_data.ui.screen_main.MainScreen
+import com.example.auto_data.ui.screen_main_car_generation_specs.CarGenerationSpecsScreen
 import com.example.auto_data.ui.screen_main_car_generations.CarGenerationsScreen
 import com.example.auto_data.ui.screen_news.NewsScreen
 import com.example.auto_data.ui.screen_settings.SettingsScreen
@@ -83,6 +84,10 @@ fun Main_Navigation() {
                     val carModelName = backStackEntry.arguments?.getString("carModelName")
                     val carBrand = backStackEntry.arguments?.getString("carBrand")
                     CarGenerationsScreen(carModelId, carModelName, carBrand, navController)
+                }
+                composable(ScreenObjects.CarGenerationSpecs.route) { backStackEntry ->
+                    val generationId = backStackEntry.arguments?.getString("generationId")
+                    CarGenerationSpecsScreen(generationId, navController)
                 }
             }
         }

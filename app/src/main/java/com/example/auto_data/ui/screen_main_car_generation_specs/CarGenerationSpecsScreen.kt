@@ -1,11 +1,9 @@
-package com.example.auto_data.ui.screen_main_car_generations
+package com.example.auto_data.ui.screen_main_car_generation_specs
 
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,10 +12,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -33,25 +32,22 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import coil.compose.rememberAsyncImagePainter
 import com.example.auto_data.R
-import com.example.auto_data.navigation.ScreenObjects
 import com.example.auto_data.ui.theme.Dimensions
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CarGenerationsScreen(
-    carModelId: String?,
-    carModelName: String?,
-    carBrand: String?,
+fun CarGenerationSpecsScreen(
+    generationId: String?,
     navController: NavHostController,
-    viewModel: CarGenerationsScreenViewModel = viewModel()
+    viewModel: CarGenerationSpecsScreenViewModel = viewModel()
 ) {
-    val carGenerations by viewModel.carGenerations
+    val generationSpecsList by viewModel.generationSpecsList
+    val generationName by viewModel.generationName
     val isLoading by viewModel.isLoading
     val error by viewModel.error
     val isTopAppBarVisible by viewModel.isTopAppBarVisible
@@ -63,25 +59,27 @@ fun CarGenerationsScreen(
 
     val listState = rememberLazyListState()
 
-    // Load car generations when the screen is composed
-    LaunchedEffect(carModelId, carBrand) {
-        if (carModelId != null) {
-            viewModel.getCarGenerations(carModelId, carBrand)
+    // Loading data when screen is opened
+    LaunchedEffect(generationId) {
+        if (generationId != null) {
+            viewModel.getGenerationSpecs(generationId)
         }
     }
 
-    // Observe scroll state changes to hide/show the top app bar
     LaunchedEffect(listState) {
         viewModel.observeScrollState(listState)
     }
 
     Scaffold(
         topBar = {
-            CarGenerationsTopAppBar(topAppBarOffset.value, navController, carModelName)
+            CarGenerationSpecsTopAppBar(
+                topAppBarOffset = topAppBarOffset.value,
+                navController = navController,
+                generationName = generationName,
+                brand = generationSpecsList.firstOrNull()?.brand,
+            )
         }
     ) { innerPadding ->
-
-        // Loading Indicator
         if (isLoading) {
             Box(
                 modifier = Modifier
@@ -92,7 +90,6 @@ fun CarGenerationsScreen(
                 CircularProgressIndicator()
             }
         }
-        // Showing Error
         else if (error != null) {
             Box(
                 modifier = Modifier
@@ -104,37 +101,40 @@ fun CarGenerationsScreen(
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         text = error!!,
-                        color = MaterialTheme.colorScheme.error,
-                        style = MaterialTheme.typography.bodyMedium
+                        color = MaterialTheme.colorScheme.tertiary,
+                        style = MaterialTheme.typography.titleMedium
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "Click to retry",
+                        text = "Click here to retry",
+                        style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.clickable {
-                            viewModel.refresh(carModelId, carBrand)
+                        modifier = Modifier
+                            .clickable {
+                            viewModel.refresh(generationId)
                         }
                     )
                 }
             }
         }
-        // Showing Data
-        else if (carGenerations.isNotEmpty()) {
+        else if (generationSpecsList.isNotEmpty()) {
             LazyColumn(
                 state = listState,
                 contentPadding = innerPadding,
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(carGenerations) { generation ->
+                items(generationSpecsList) { specs ->
                     Column {
-                        CarGenerationItem(generation, navController = navController)
-                        HorizontalDivider(thickness = 1.dp, color = Color.Black)
+                        GenerationSpecsItem(specs = specs)
+                        HorizontalDivider(
+                            thickness = 1.dp,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
+                        )
                     }
                 }
             }
         }
-        // Empty List if no Data
-        else if (!isLoading) {
+        else {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -143,7 +143,8 @@ fun CarGenerationsScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "No generations found for $carModelName",
+                    text = "Specification not found",
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
@@ -152,76 +153,93 @@ fun CarGenerationsScreen(
 }
 
 @Composable
-fun CarGenerationItem(
-    generation: com.example.auto_data.network.CarGeneration,
-    navController: NavHostController
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
+fun GenerationSpecsItem(specs: com.example.auto_data.network.CarGenerationSpecs) {
+    Card(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                navController.navigate(
-                    ScreenObjects.CarGenerationSpecs.createRoute(
-                        generationId = generation.id.toString()
-                    )
-                )
+                // In progress
             }
-            .padding(
-                horizontal = Dimensions.padding_normal
-            )
+            .padding(horizontal = 4.dp, vertical = 8.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onSecondary)
     ) {
-        if (!generation.urlPictures.isNullOrEmpty()) {
-            Image(
-                painter = rememberAsyncImagePainter(generation.urlPictures),
-                contentDescription = "Car Generation Image",
-                modifier = Modifier.size(Dimensions.model_image)
-            )
-        } else {
-            Image(
-                painter = painterResource(id = R.drawable.car),
-                contentDescription = "Default Car Icon",
-                modifier = Modifier.size(Dimensions.model_image)
-            )
-        }
-
-        Spacer(modifier = Modifier.width(Dimensions.spacer_large))
-
         Column(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.padding(16.dp)
         ) {
-            Text(
-                text = generation.generation ?: "Unknown Generation",
-                style = MaterialTheme.typography.titleMedium
-            )
-
-            generation.years?.let { years ->
-                if (years.isNotBlank()) {
-                    Spacer(modifier = Modifier.height(4.dp))
+            specs.genSpecs?.let { genSpecs ->
+                if (genSpecs.isNotBlank()) {
                     Text(
-                        text = "Years: $years",
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        text = genSpecs,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.tertiary,
+                        modifier = Modifier.padding(bottom = 8.dp)
                     )
                 }
             }
+
+            specs.brand?.let { brand ->
+                Text(
+                    text = "Brand: $brand",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            }
+
+            specs.generation?.let { generation ->
+                Text(
+                    text = "Generation: $generation",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier.padding(top = 4.dp),
+                    )
+            }
+
+            specs.years?.let { years ->
+                if (years.isNotBlank()) {
+                    Text(
+                        text = "Years: $years",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.padding(top = 4.dp),
+                    )
+                }
+            }
+
+            Text(
+                text = "ID Specs: ${specs.id}",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.padding(top = 4.dp),
+            )
+            Text(
+                text = "ID Model: ${specs.idModel}",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onPrimary
+            )
+
+            Text(
+                text = "ID Generation: ${specs.idGeneration}",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onPrimary
+            )
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CarGenerationsTopAppBar(
+fun CarGenerationSpecsTopAppBar(
     topAppBarOffset: Float,
     navController: NavHostController,
-    carModel: String?,
+    generationName: String?,
+    brand: String?,
 ) {
     TopAppBar(
         modifier = Modifier
             .height(Dimensions.topAppBarHeight)
             .offset(y = topAppBarOffset.dp),
         colors = TopAppBarDefaults.topAppBarColors(
-            MaterialTheme.colorScheme.surface
+            containerColor = MaterialTheme.colorScheme.surface
         ),
         title = {
             Box(
@@ -229,7 +247,11 @@ fun CarGenerationsTopAppBar(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "$carModel - Generations",
+                    text = if (generationName != null) {
+                        "Specifications for $brand $generationName"
+                    } else {
+                        "No Specifications Data"
+                    },
                     color = MaterialTheme.colorScheme.onPrimary,
                     maxLines = 1
                 )
