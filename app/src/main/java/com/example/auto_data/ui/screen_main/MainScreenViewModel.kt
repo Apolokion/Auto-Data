@@ -33,9 +33,11 @@ class MainScreenViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val brands = repository.getAllCarBrands()
-                carBrands.value = brands
+                val sortedBrands = brands.sortedBy { it.brandName ?: "" }
+                carBrands.value = sortedBrands
             } catch (e: Exception) {
                 error.value = "Loading error: ${e.message}"
+                carBrands.value = emptyList()
             } finally {
                 isLoading.value = false
             }
