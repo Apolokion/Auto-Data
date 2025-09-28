@@ -59,6 +59,15 @@ class SupabaseRepository {
         }
     }
 
+    suspend fun getGeneralSpecs(genSpecsId: Long): SpecDetailsGeneral? {
+        return try {
+            val allSpecs = getAllGeneralSpecs()
+            allSpecs.find { it.idGenSpecs == genSpecsId }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     // 5. Spec Details - Performance specs
     suspend fun getAllPerformanceSpecs(): List<SpecDetailsPerformance> {
         return try {
@@ -67,6 +76,15 @@ class SupabaseRepository {
                 .decodeList<SpecDetailsPerformance>()
         } catch (e: Exception) {
             emptyList()
+        }
+    }
+
+    suspend fun getPerformanceSpecs(genSpecsId: Long): SpecDetailsPerformance? {
+        return try {
+            val allSpecs = getAllPerformanceSpecs()
+            allSpecs.find { it.idGenSpecs == genSpecsId }
+        } catch (e: Exception) {
+            null
         }
     }
 
@@ -81,6 +99,15 @@ class SupabaseRepository {
         }
     }
 
+    suspend fun getEngineSpecs(genSpecsId: Long): SpecDetailsEngine? {
+        return try {
+            val allSpecs = getAllEngineSpecs()
+            allSpecs.find { it.idGenSpecs == genSpecsId }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     // 7. Spec Details - Space, Volume and Weights
     suspend fun getAllSpaceVolumeSpecs(): List<SpecDetailsSpaceVolume> {
         return try {
@@ -89,6 +116,15 @@ class SupabaseRepository {
                 .decodeList<SpecDetailsSpaceVolume>()
         } catch (e: Exception) {
             emptyList()
+        }
+    }
+
+    suspend fun getSpaceVolumeSpecs(genSpecsId: Long): SpecDetailsSpaceVolume? {
+        return try {
+            val allSpecs = getAllSpaceVolumeSpecs()
+            allSpecs.find { it.idGenSpecs == genSpecsId }
+        } catch (e: Exception) {
+            null
         }
     }
 
@@ -103,6 +139,15 @@ class SupabaseRepository {
         }
     }
 
+    suspend fun getDimensionsSpecs(genSpecsId: Long): SpecDetailsDimensions? {
+        return try {
+            val allSpecs = getAllDimensionsSpecs()
+            allSpecs.find { it.idGenSpecs == genSpecsId }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     // 9. Spec Details - Drivetrain, brakes and suspension specs
     suspend fun getAllDrivetrainSpecs(): List<SpecDetailsDrivetrain> {
         return try {
@@ -111,6 +156,15 @@ class SupabaseRepository {
                 .decodeList<SpecDetailsDrivetrain>()
         } catch (e: Exception) {
             emptyList()
+        }
+    }
+
+    suspend fun getDrivetrainSpecs(genSpecsId: Long): SpecDetailsDrivetrain? {
+        return try {
+            val allSpecs = getAllDrivetrainSpecs()
+            allSpecs.find { it.idGenSpecs == genSpecsId }
+        } catch (e: Exception) {
+            null
         }
     }
 }

@@ -17,4 +17,7 @@ sealed class ScreenObjects(val route: String) {
     data object CarGenerationSpecs : ScreenObjects("generation_specs/{generationId}") {
         fun createRoute(generationId: String) = "generation_specs/$generationId"
     }
+    data object CarSpecsDetails : ScreenObjects("specs_details/{specsId}") {
+        fun createRoute(specsId: String) = "specs_details/$specsId"
+    }
 }

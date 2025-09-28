@@ -37,6 +37,7 @@ import com.example.auto_data.ui.screen_compare_cars.CompareScreen
 import com.example.auto_data.ui.screen_main.MainScreen
 import com.example.auto_data.ui.screen_main_car_generation_specs.CarGenerationSpecsScreen
 import com.example.auto_data.ui.screen_main_car_generations.CarGenerationsScreen
+import com.example.auto_data.ui.screen_main_car_specs_details.CarSpecsDetailsScreen
 import com.example.auto_data.ui.screen_news.NewsScreen
 import com.example.auto_data.ui.screen_settings.SettingsScreen
 import com.example.auto_data.ui.theme.Dimensions.icon_size_normal
@@ -88,6 +89,10 @@ fun Main_Navigation() {
                 composable(ScreenObjects.CarGenerationSpecs.route) { backStackEntry ->
                     val generationId = backStackEntry.arguments?.getString("generationId")
                     CarGenerationSpecsScreen(generationId, navController)
+                }
+                composable(ScreenObjects.CarSpecsDetails.route) { backStackEntry ->
+                    val specsId = backStackEntry.arguments?.getString("specsId")
+                    CarSpecsDetailsScreen(specsId, navController)
                 }
             }
         }

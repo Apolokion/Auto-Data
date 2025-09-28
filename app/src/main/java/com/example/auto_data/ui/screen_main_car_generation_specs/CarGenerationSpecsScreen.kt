@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.auto_data.R
+import com.example.auto_data.navigation.ScreenObjects
 import com.example.auto_data.ui.theme.Dimensions
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -125,7 +126,7 @@ fun CarGenerationSpecsScreen(
             ) {
                 items(generationSpecsList) { specs ->
                     Column {
-                        GenerationSpecsItem(specs = specs)
+                        GenerationSpecsItem(specs = specs, navController = navController)
                         HorizontalDivider(
                             thickness = 1.dp,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
@@ -153,14 +154,20 @@ fun CarGenerationSpecsScreen(
 }
 
 @Composable
-fun GenerationSpecsItem(specs: com.example.auto_data.network.CarGenerationSpecs) {
+fun GenerationSpecsItem(
+    specs: com.example.auto_data.network.CarGenerationSpecs,
+    navController: NavHostController) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                // In progress
+                navController.navigate(
+                    ScreenObjects.CarSpecsDetails.createRoute(
+                        specsId = specs.id.toString()
+                    )
+                )
             }
-            .padding(horizontal = 4.dp, vertical = 8.dp),
+            .padding(horizontal = 4.dp, vertical = 4.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onSecondary)
     ) {
         Column(
