@@ -272,9 +272,9 @@ fun PerformanceSpecsSection(specs: com.example.auto_data.network.SpecDetailsPerf
 
                 specs.maximumSpeed?.let { Text(text = "• Maximum Speed: $it", color = MaterialTheme.colorScheme.onPrimary) }
                 specs.acceleration0To100?.let { Text(text = "• 0-100 km/h: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.fuelConsumptionUrban?.let { Text(text = "• Urban Fuel: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.fuelConsumptionExtraUrban?.let { Text(text = "• Extra Urban Fuel: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.fuelConsumptionCombined?.let { Text(text = "• Combined Fuel: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.fuelConsumptionUrban?.let { Text(text = "• Fuel consumption (economy) - urban: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.fuelConsumptionExtraUrban?.let { Text(text = "• Fuel consumption (economy) - extra urban: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.fuelConsumptionCombined?.let { Text(text = "• Fuel consumption (economy) - combined: $it", color = MaterialTheme.colorScheme.onPrimary) }
                 specs.co2Emissions?.let { Text(text = "• CO2 Emissions: $it", color = MaterialTheme.colorScheme.onPrimary) }
                 specs.fuelType?.let { Text(text = "• Fuel Type: $it", color = MaterialTheme.colorScheme.onPrimary) }
                 specs.emissionStandard?.let { Text(text = "• Emission Standard: $it", color = MaterialTheme.colorScheme.onPrimary) }
