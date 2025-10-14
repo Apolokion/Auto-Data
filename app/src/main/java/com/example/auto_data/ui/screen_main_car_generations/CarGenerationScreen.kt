@@ -199,7 +199,7 @@ fun CarGenerationItem(
                 if (years.isNotBlank()) {
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "Years: $years",
+                        text = years,
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
