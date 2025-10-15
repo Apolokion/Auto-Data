@@ -322,6 +322,23 @@ fun EngineSpecsSection(specs: com.example.auto_data.network.SpecDetailsEngine?) 
                 specs.coolantCapacity?.let { Text(text = "• Coolant: $it", color = MaterialTheme.colorScheme.onPrimary) }
                 specs.valvetrain?.let { Text(text = "• Valvetrain: $it", color = MaterialTheme.colorScheme.onPrimary) }
                 specs.fuelInjectionSystem?.let { Text(text = "• Injection: $it", color = MaterialTheme.colorScheme.onPrimary) }
+
+                //Electric and Hybrid Cars
+                specs.grossBatteryCapacity?.let { Text(text = "• Gross battery capacity: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.netBatteryCapacity?.let { Text(text = "• Net (usable) battery capacity: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.batteryVoltage?.let { Text(text = "• Battery voltage: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.batteryTechnology?.let { Text(text = "• Battery technology: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.batteryWeight?.let { Text(text = "• Battery weight: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.batteryLocation?.let { Text(text = "• Battery location: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.allElectricRange?.let { Text(text = "• All-electric range: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.averageEnergyConsumption?.let { Text(text = "• Average energy consumption: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.chargingPorts?.let { Text(text = "• Charging ports: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.electricMotorPower?.let { Text(text = "• Electric motor power: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.electricMotorTorque?.let { Text(text = "• Electric motor torque: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.electricMotorLocation?.let { Text(text = "• Electric motor location: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.electricMotorType?.let { Text(text = "• Electric motor type: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.systemPower?.let { Text(text = "• System power: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.systemTorque?.let { Text(text = "• System torque: $it", color = MaterialTheme.colorScheme.onPrimary) }
             }
         }
     }

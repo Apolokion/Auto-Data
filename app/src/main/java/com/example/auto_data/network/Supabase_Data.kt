@@ -144,7 +144,39 @@ data class SpecDetailsEngine(
     @SerialName("Valvetrain")
     val valvetrain: String? = null,
     @SerialName("Fuel injection system")
-    val fuelInjectionSystem: String? = null
+    val fuelInjectionSystem: String? = null,
+
+    //Electric and Hybrid Cars
+    @SerialName("Gross battery capacity")
+    val grossBatteryCapacity: String? = null,
+    @SerialName("Net (usable) battery capacity")
+    val netBatteryCapacity: String? = null,
+    @SerialName("Battery voltage")
+    val batteryVoltage: String? = null,
+    @SerialName("Battery technology")
+    val batteryTechnology: String? = null,
+    @SerialName("Battery weight")
+    val batteryWeight: String? = null,
+    @SerialName("Battery location")
+    val batteryLocation: String? = null,
+    @SerialName("All-electric range")
+    val allElectricRange: String? = null,
+    @SerialName("Average Energy consumption")
+    val averageEnergyConsumption: String? = null,
+    @SerialName("Charging ports")
+    val chargingPorts: String? = null,
+    @SerialName("Electric motor power")
+    val electricMotorPower: String? = null,
+    @SerialName("Electric motor torque")
+    val electricMotorTorque: String? = null,
+    @SerialName("Electric motor location")
+    val electricMotorLocation: String? = null,
+    @SerialName("Electric motor type")
+    val electricMotorType: String? = null,
+    @SerialName("System power")
+    val systemPower: String? = null,
+    @SerialName("System torque")
+    val systemTorque: String? = null,
 )
 
 @Serializable
