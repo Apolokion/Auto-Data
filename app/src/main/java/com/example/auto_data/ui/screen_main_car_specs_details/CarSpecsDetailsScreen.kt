@@ -31,6 +31,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -55,12 +58,12 @@ fun CarSpecsDetailsScreen(
     val isLoading by viewModel.isLoading
     val error by viewModel.error
 
-    val listState = rememberLazyListState()
+    val lazyListState = rememberLazyListState()
 
     val isTopAppBarVisible by remember {
         derivedStateOf {
-            listState.firstVisibleItemIndex == 0 &&
-                    listState.firstVisibleItemScrollOffset < 58
+            lazyListState.firstVisibleItemIndex == 0 &&
+                    lazyListState.firstVisibleItemScrollOffset < 58
         }
     }
 
@@ -111,60 +114,19 @@ fun CarSpecsDetailsScreen(
             }
         }
         else if (generationSpecs != null) {
-            LazyColumn(state = listState,
+            LazyColumn(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxSize(),
+                contentPadding = innerPadding,
+                state = lazyListState
             ) {
-                // General Information about Specification
-                item {
-                    generationSpecs?.let { specs ->
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 60.dp)
-                                .padding(horizontal = 4.dp, vertical = 2.dp),
-                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onSecondary)
-                        ) {
-                            Column(
-                                modifier = Modifier.padding(16.dp)
-                            ) {
-                                Text(
-                                    text = specs.genSpecs ?: "Specifications",
-                                    style = MaterialTheme.typography.headlineMedium,
-                                    color = MaterialTheme.colorScheme.tertiary
-                                )
-                                specs.brand?.let { brand ->
-                                    Text(
-                                        text = "Brand: $brand",
-                                        style = MaterialTheme.typography.bodyLarge,
-                                        color = MaterialTheme.colorScheme.onPrimary
-                                    )
-                                }
-                                specs.generation?.let { generation ->
-                                    Text(
-                                        text = "Generation: $generation",
-                                        style = MaterialTheme.typography.bodyLarge,
-                                        color = MaterialTheme.colorScheme.onPrimary
-                                    )
-                                }
-                                specs.years?.let { years ->
-                                    Text(
-                                        text = "Years: $years",
-                                        style = MaterialTheme.typography.bodyLarge,
-                                        color = MaterialTheme.colorScheme.onPrimary
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-                    // Detailed Information
-                    item { GeneralSpecsSection(generalSpecs) }
-                    item { PerformanceSpecsSection(performanceSpecs) }
-                    item { EngineSpecsSection(engineSpecs) }
-                    item { SpaceVolumeSpecsSection(spaceVolumeSpecs) }
-                    item { DimensionsSpecsSection(dimensionsSpecs) }
-                    item { DrivetrainSpecsSection(drivetrainSpecs) }
+                // Detailed Information
+                item { GeneralSpecsSection(generalSpecs) }
+                item { PerformanceSpecsSection(performanceSpecs) }
+                item { EngineSpecsSection(engineSpecs) }
+                item { SpaceVolumeSpecsSection(spaceVolumeSpecs) }
+                item { DimensionsSpecsSection(dimensionsSpecs) }
+                item { DrivetrainSpecsSection(drivetrainSpecs) }
             }
         }
     }
@@ -232,19 +194,16 @@ fun GeneralSpecsSection(specs: com.example.auto_data.network.SpecDetailsGeneral?
                     modifier = Modifier.padding(bottom = 12.dp)
                 )
 
-                specs.bodyType?.let { Text(text = "• Body Type: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.modificationEngine?.let { Text(text = "• Engine: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.startOfProduction?.let { start ->
-                    specs.endOfProduction?.let { end ->
-                        Text(text = "• Production: $start - $end", color = MaterialTheme.colorScheme.onPrimary)
-                    }
-                }
-                specs.powertrainArchitecture?.let { Text(text = "• Powertrain: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.seats?.let { Text(text = "• Seats: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.doors?.let { Text(text = "• Doors: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.brandName?.let { Text(text = "• Brand: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.model?.let { Text(text = "• Model: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.generation?.let { Text(text = "• Generation: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.brandName?.let { Text(text = createStyledText("• Brand: ", it))}
+                specs.model?.let { Text(text = createStyledText("• Model: ", it))}
+                specs.generation?.let { Text(text = createStyledText("• Generation: ", it))}
+                specs.bodyType?.let { Text(text = createStyledText("• Body Type: ", it))}
+                specs.modificationEngine?.let { Text(text = createStyledText("• Engine: ", it))}
+                specs.startOfProduction?.let { Text(text = createStyledText("• Production start: ", it.toString()))}
+                specs.endOfProduction?.let { Text(text = createStyledText("• Production end: ", it.toString()))}
+                specs.powertrainArchitecture?.let { Text(text = createStyledText("• Powertrain: ", it))}
+                specs.seats?.let { Text(text = createStyledText("• Seats: ", it.toString()))}
+                specs.doors?.let { Text(text = createStyledText("• Doors: ", it.toString()))}
             }
         }
     }
@@ -270,16 +229,16 @@ fun PerformanceSpecsSection(specs: com.example.auto_data.network.SpecDetailsPerf
                     modifier = Modifier.padding(bottom = 12.dp)
                 )
 
-                specs.maximumSpeed?.let { Text(text = "• Maximum Speed: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.acceleration0To100?.let { Text(text = "• 0-100 km/h: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.fuelConsumptionUrban?.let { Text(text = "• Fuel consumption (economy) - urban: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.fuelConsumptionExtraUrban?.let { Text(text = "• Fuel consumption (economy) - extra urban: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.fuelConsumptionCombined?.let { Text(text = "• Fuel consumption (economy) - combined: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.co2Emissions?.let { Text(text = "• CO2 Emissions: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.fuelType?.let { Text(text = "• Fuel Type: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.emissionStandard?.let { Text(text = "• Emission Standard: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.weightToPowerRatio?.let { Text(text = "• Weight/Power: $it",color = MaterialTheme.colorScheme.onPrimary) }
-                specs.weightToTorqueRatio?.let { Text(text = "• Weight/Torque: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.maximumSpeed?.let { Text(text = createStyledText("• Maximum Speed: ", it))}
+                specs.acceleration0To100?.let { Text(text = createStyledText("• 0-100 km/h: ", it))}
+                specs.fuelConsumptionUrban?.let { Text(text = createStyledText("• Fuel consumption (economy) - urban: ", it))}
+                specs.fuelConsumptionExtraUrban?.let { Text(text = createStyledText("• Fuel consumption (economy) - extra urban: ", it))}
+                specs.fuelConsumptionCombined?.let { Text(text = createStyledText("• Fuel consumption (economy) - combined: ", it))}
+                specs.co2Emissions?.let { Text(text = createStyledText("• CO2 Emissions: ", it))}
+                specs.fuelType?.let { Text(text = createStyledText("• Fuel Type: ", it))}
+                specs.emissionStandard?.let { Text(text = createStyledText("• Emission Standard: ", it))}
+                specs.weightToPowerRatio?.let { Text(text = createStyledText("• Weight/Power: ", it))}
+                specs.weightToTorqueRatio?.let { Text(text = createStyledText("• Weight/Torque: ", it))}
             }
         }
     }
@@ -305,40 +264,40 @@ fun EngineSpecsSection(specs: com.example.auto_data.network.SpecDetailsEngine?) 
                     modifier = Modifier.padding(bottom = 12.dp)
                 )
 
-                specs.power?.let { Text(text = "• Power: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.torque?.let { Text(text = "• Torque: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.engineLayout?.let { Text(text = "• Layout: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.engineModelCode?.let { Text(text = "• Engine Code: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.engineDisplacement?.let { Text(text = "• Displacement: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.numberOfCylinders?.let { Text(text = "• Cylinders: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.engineConfiguration?.let { Text(text = "• Configuration: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.cylinderBore?.let { Text(text = "• Bore: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.pistonStroke?.let { Text(text = "• Stroke: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.compressionRatio?.let { Text(text = "• Compression: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.valvesPerCylinder?.let { Text(text = "• Valves/Cylinder: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.engineAspiration?.let { Text(text = "• Aspiration: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.engineOilCapacity?.let { Text(text = "• Oil Capacity: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.engineOilSpecification?.let { Text(text = "• Oil Spec: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.coolantCapacity?.let { Text(text = "• Coolant: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.valvetrain?.let { Text(text = "• Valvetrain: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.fuelInjectionSystem?.let { Text(text = "• Injection: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.power?.let { Text(text = createStyledText("• Power: ", it))}
+                specs.torque?.let { Text(text = createStyledText("• Torque: ", it))}
+                specs.engineLayout?.let { Text(text = createStyledText("• Layout: ", it))}
+                specs.engineModelCode?.let { Text(text = createStyledText("• Engine Code: ", it))}
+                specs.engineDisplacement?.let { Text(text = createStyledText("• Displacement: ", it))}
+                specs.numberOfCylinders?.let { Text(text = createStyledText("• Cylinders: ", it.toString()))}
+                specs.engineConfiguration?.let { Text(text = createStyledText("• Configuration: ", it))}
+                specs.cylinderBore?.let { Text(text = createStyledText("• Bore: ", it))}
+                specs.pistonStroke?.let { Text(text = createStyledText("• Stroke: ", it))}
+                specs.compressionRatio?.let { Text(text = createStyledText("• Compression: ", it))}
+                specs.valvesPerCylinder?.let { Text(text = createStyledText("• Valves/Cylinder: ", it.toString()))}
+                specs.engineAspiration?.let { Text(text = createStyledText("• Aspiration: ", it))}
+                specs.engineOilCapacity?.let { Text(text = createStyledText("• Oil Capacity: ", it))}
+                specs.engineOilSpecification?.let { Text(text = createStyledText("• Oil Spec: ", it))}
+                specs.coolantCapacity?.let { Text(text = createStyledText("• Coolant: ", it))}
+                specs.valvetrain?.let { Text(text = createStyledText("• Valvetrain: ", it))}
+                specs.fuelInjectionSystem?.let { Text(text = createStyledText("• Injection: ", it))}
 
                 //Electric and Hybrid Cars
-                specs.grossBatteryCapacity?.let { Text(text = "• Gross battery capacity: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.netBatteryCapacity?.let { Text(text = "• Net (usable) battery capacity: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.batteryVoltage?.let { Text(text = "• Battery voltage: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.batteryTechnology?.let { Text(text = "• Battery technology: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.batteryWeight?.let { Text(text = "• Battery weight: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.batteryLocation?.let { Text(text = "• Battery location: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.allElectricRange?.let { Text(text = "• All-electric range: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.averageEnergyConsumption?.let { Text(text = "• Average energy consumption: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.chargingPorts?.let { Text(text = "• Charging ports: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.electricMotorPower?.let { Text(text = "• Electric motor power: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.electricMotorTorque?.let { Text(text = "• Electric motor torque: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.electricMotorLocation?.let { Text(text = "• Electric motor location: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.electricMotorType?.let { Text(text = "• Electric motor type: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.systemPower?.let { Text(text = "• System power: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.systemTorque?.let { Text(text = "• System torque: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.grossBatteryCapacity?.let { Text(text = createStyledText("• Gross battery capacity: ", it))}
+                specs.netBatteryCapacity?.let { Text(text = createStyledText("• Net (usable) battery capacity: ", it))}
+                specs.batteryVoltage?.let { Text(text = createStyledText("• Battery voltage: ", it))}
+                specs.batteryTechnology?.let { Text(text = createStyledText("• Battery technology: ", it))}
+                specs.batteryWeight?.let { Text(text = createStyledText("• Battery weight: ", it ))}
+                specs.batteryLocation?.let { Text(text = createStyledText("• Battery location: ", it))}
+                specs.allElectricRange?.let { Text(text = createStyledText("• All-electric range: ", it))}
+                specs.averageEnergyConsumption?.let { Text(text = createStyledText("• Average energy consumption: ", it))}
+                specs.chargingPorts?.let { Text(text = createStyledText("• Charging ports: ", it))}
+                specs.electricMotorPower?.let { Text(text = createStyledText("• Electric motor power: ", it))}
+                specs.electricMotorTorque?.let { Text(text = createStyledText("• Electric motor torque: ", it))}
+                specs.electricMotorLocation?.let { Text(text = createStyledText("• Electric motor location: ", it))}
+                specs.electricMotorType?.let { Text(text = createStyledText("• Electric motor type: ", it))}
+                specs.systemPower?.let { Text(text = createStyledText("• System power: ", it))}
+                specs.systemTorque?.let { Text(text = createStyledText("• System torque: ", it))}
             }
         }
     }
@@ -364,12 +323,12 @@ fun SpaceVolumeSpecsSection(specs: com.example.auto_data.network.SpecDetailsSpac
                     modifier = Modifier.padding(bottom = 12.dp)
                 )
 
-                specs.kerbWeight?.let { Text(text = "• Kerb Weight: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.fuelTankCapacity?.let { Text(text = "• Fuel Tank: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.maxWeight?.let { Text(text = "• Max Weight: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.maxLoad?.let { Text(text = "• Max Load: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.trunkSpaceMin?.let { Text(text = "• Min Trunk: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.trunkSpaceMax?.let { Text(text = "• Max Trunk: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.kerbWeight?.let { Text(text = createStyledText("• Kerb Weight: ", it))}
+                specs.fuelTankCapacity?.let { Text(text = createStyledText("• Fuel Tank: ", it))}
+                specs.maxWeight?.let { Text(text = createStyledText("• Max Weight: ", it))}
+                specs.maxLoad?.let { Text(text = createStyledText("• Max Load: ", it))}
+                specs.trunkSpaceMin?.let { Text(text = createStyledText("• Min Trunk: ", it))}
+                specs.trunkSpaceMax?.let { Text(text = createStyledText("• Max Trunk: ", it))}
             }
         }
     }
@@ -395,16 +354,16 @@ fun DimensionsSpecsSection(specs: com.example.auto_data.network.SpecDetailsDimen
                     modifier = Modifier.padding(bottom = 12.dp)
                 )
 
-                specs.length?.let { Text(text = "• Length: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.width?.let { Text(text = "• Width: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.widthIncludingMirrors?.let { Text(text = "• Width (with mirrors): $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.height?.let { Text(text = "• Height: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.wheelbase?.let { Text(text = "• Wheelbase: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.frontTrack?.let { Text(text = "• Front Track: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.rearTrack?.let { Text(text = "• Rear Track: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.minimumTurningCircle?.let { Text(text = "• Turning Circle: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.frontOverhang?.let { Text(text = "• Front Overhang: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.rearOverhang?.let { Text(text = "• Rear Overhang: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.length?.let { Text(text = createStyledText("• Length: ", it))}
+                specs.width?.let { Text(text = createStyledText("• Width: ", it))}
+                specs.widthIncludingMirrors?.let { Text(text = createStyledText("• Width (with mirrors): ", it))}
+                specs.height?.let { Text(text = createStyledText("• Height: ", it))}
+                specs.wheelbase?.let { Text(text = createStyledText("• Wheelbase: ", it))}
+                specs.frontTrack?.let { Text(text = createStyledText("• Front Track: ", it))}
+                specs.rearTrack?.let { Text(text = createStyledText("• Rear Track: ", it))}
+                specs.minimumTurningCircle?.let { Text(text = createStyledText("• Turning Circle: ", it))}
+                specs.frontOverhang?.let { Text(text = createStyledText("• Front Overhang: ", it))}
+                specs.rearOverhang?.let { Text(text = createStyledText("• Rear Overhang: ", it))}
             }
         }
     }
@@ -430,19 +389,41 @@ fun DrivetrainSpecsSection(specs: com.example.auto_data.network.SpecDetailsDrive
                     modifier = Modifier.padding(bottom = 12.dp)
                 )
 
-                specs.drivetrainArchitecture?.let { Text(text = "• Drivetrain: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.driveWheel?.let { Text(text = "• Drive Wheel: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.numberOfGears?.let { Text(text = "• Gears: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.frontSuspension?.let { Text(text = "• Front Suspension: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.rearSuspension?.let { Text(text = "• Rear Suspension: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.assistingSystems?.let { Text(text = "• Assisting Systems: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.steeringType?.let { Text(text = "• Steering Type: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.powerSteering?.let { Text(text = "• Power Steering: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.frontBrakes?.let { Text(text = "• Front Brakes: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.rearBrakes?.let { Text(text = "• Rear Brakes: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.tiresSize?.let { Text(text = "• Tires: $it", color = MaterialTheme.colorScheme.onPrimary) }
-                specs.wheelRimsSize?.let { Text(text = "• Wheel Rims: $it", color = MaterialTheme.colorScheme.onPrimary) }
+                specs.drivetrainArchitecture?.let { Text(text = createStyledText("• Drivetrain: ", it))}
+                specs.driveWheel?.let { Text(text = createStyledText("• Drive Wheel: ", it))}
+                specs.numberOfGears?.let { Text(text = createStyledText("• Gears: ", it))}
+                specs.frontSuspension?.let { Text(text = createStyledText("• Front Suspension: ", it))}
+                specs.rearSuspension?.let { Text(text = createStyledText("• Rear Suspension: ", it))}
+                specs.assistingSystems?.let { Text(text = createStyledText("• Assisting Systems: ", it))}
+                specs.steeringType?.let { Text(text = createStyledText("• Steering Type: ", it))}
+                specs.powerSteering?.let { Text(text = createStyledText("• Power Steering: ", it))}
+                specs.frontBrakes?.let { Text(text = createStyledText("• Front Brakes: ", it))}
+                specs.rearBrakes?.let { Text(text = createStyledText("• Rear Brakes: ", it))}
+                specs.tiresSize?.let { Text(text = createStyledText("• Tires: ", it))}
+                specs.wheelRimsSize?.let { Text(text = createStyledText("• Wheel Rims: ", it))}
             }
         }
+    }
+}
+
+@Composable
+fun createStyledText(label: String, value: String) = buildAnnotatedString {
+    withStyle(
+        style = SpanStyle(
+            fontSize = MaterialTheme.typography.titleSmall.fontSize,
+            fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
+            color = MaterialTheme.colorScheme.onPrimary
+        )
+    ) {
+        append(label)
+    }
+    withStyle(
+        style = SpanStyle(
+            fontSize = MaterialTheme.typography.titleSmall.fontSize,
+            fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
+            color = MaterialTheme.colorScheme.tertiary
+        )
+    ) {
+        append(value)
     }
 }
