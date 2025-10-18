@@ -197,7 +197,7 @@ fun GeneralSpecsSection(specs: com.example.auto_data.network.SpecDetailsGeneral?
                 specs.brandName?.let { Text(text = createStyledText("• Brand: ", it))}
                 specs.model?.let { Text(text = createStyledText("• Model: ", it))}
                 specs.generation?.let { Text(text = createStyledText("• Generation: ", it))}
-                specs.bodyType?.let { Text(text = createStyledText("• Body Type: ", it))}
+                specs.bodyType?.let { Text(text = createStyledText("• Body type: ", it))}
                 specs.modificationEngine?.let { Text(text = createStyledText("• Engine: ", it))}
                 specs.startOfProduction?.let { Text(text = createStyledText("• Production start: ", it.toString()))}
                 specs.endOfProduction?.let { Text(text = createStyledText("• Production end: ", it.toString()))}
@@ -229,14 +229,14 @@ fun PerformanceSpecsSection(specs: com.example.auto_data.network.SpecDetailsPerf
                     modifier = Modifier.padding(bottom = 12.dp)
                 )
 
-                specs.maximumSpeed?.let { Text(text = createStyledText("• Maximum Speed: ", it))}
-                specs.acceleration0To100?.let { Text(text = createStyledText("• 0-100 km/h: ", it))}
-                specs.fuelConsumptionUrban?.let { Text(text = createStyledText("• Fuel consumption (economy) - urban: ", it))}
-                specs.fuelConsumptionExtraUrban?.let { Text(text = createStyledText("• Fuel consumption (economy) - extra urban: ", it))}
-                specs.fuelConsumptionCombined?.let { Text(text = createStyledText("• Fuel consumption (economy) - combined: ", it))}
-                specs.co2Emissions?.let { Text(text = createStyledText("• CO2 Emissions: ", it))}
-                specs.fuelType?.let { Text(text = createStyledText("• Fuel Type: ", it))}
-                specs.emissionStandard?.let { Text(text = createStyledText("• Emission Standard: ", it))}
+                specs.maximumSpeed?.let { Text(text = createStyledText("• Max. speed: ", it))}
+                specs.acceleration0To100?.let { Text(text = createStyledText("• 0-100 km/h (0 - 62 mph): ", it))}
+                specs.fuelConsumptionUrban?.let { Text(text = createStyledText("• Fuel consumption - urban: ", it))}
+                specs.fuelConsumptionExtraUrban?.let { Text(text = createStyledText("• Fuel consumption - extra urban: ", it))}
+                specs.fuelConsumptionCombined?.let { Text(text = createStyledText("• Fuel consumption - combined: ", it))}
+                specs.co2Emissions?.let { Text(text = createStyledText("• CO2 emissions: ", it))}
+                specs.fuelType?.let { Text(text = createStyledText("• Fuel type: ", it))}
+                specs.emissionStandard?.let { Text(text = createStyledText("• Emission standard: ", it))}
                 specs.weightToPowerRatio?.let { Text(text = createStyledText("• Weight/Power: ", it))}
                 specs.weightToTorqueRatio?.let { Text(text = createStyledText("• Weight/Torque: ", it))}
             }
@@ -267,7 +267,7 @@ fun EngineSpecsSection(specs: com.example.auto_data.network.SpecDetailsEngine?) 
                 specs.power?.let { Text(text = createStyledText("• Power: ", it))}
                 specs.torque?.let { Text(text = createStyledText("• Torque: ", it))}
                 specs.engineLayout?.let { Text(text = createStyledText("• Layout: ", it))}
-                specs.engineModelCode?.let { Text(text = createStyledText("• Engine Code: ", it))}
+                specs.engineModelCode?.let { Text(text = createStyledText("• Engine code: ", it))}
                 specs.engineDisplacement?.let { Text(text = createStyledText("• Displacement: ", it))}
                 specs.numberOfCylinders?.let { Text(text = createStyledText("• Cylinders: ", it.toString()))}
                 specs.engineConfiguration?.let { Text(text = createStyledText("• Configuration: ", it))}
@@ -276,8 +276,8 @@ fun EngineSpecsSection(specs: com.example.auto_data.network.SpecDetailsEngine?) 
                 specs.compressionRatio?.let { Text(text = createStyledText("• Compression: ", it))}
                 specs.valvesPerCylinder?.let { Text(text = createStyledText("• Valves/Cylinder: ", it.toString()))}
                 specs.engineAspiration?.let { Text(text = createStyledText("• Aspiration: ", it))}
-                specs.engineOilCapacity?.let { Text(text = createStyledText("• Oil Capacity: ", it))}
-                specs.engineOilSpecification?.let { Text(text = createStyledText("• Oil Spec: ", it))}
+                specs.engineOilCapacity?.let { Text(text = createStyledText("• Oil capacity: ", it))}
+                specs.engineOilSpecification?.let { Text(text = createStyledText("• Oil spec: ", it))}
                 specs.coolantCapacity?.let { Text(text = createStyledText("• Coolant: ", it))}
                 specs.valvetrain?.let { Text(text = createStyledText("• Valvetrain: ", it))}
                 specs.fuelInjectionSystem?.let { Text(text = createStyledText("• Injection: ", it))}
@@ -317,18 +317,18 @@ fun SpaceVolumeSpecsSection(specs: com.example.auto_data.network.SpecDetailsSpac
                 modifier = Modifier.padding(16.dp)
             ) {
                 Text(
-                    text = "Space & Volume",
+                    text = "Space, Volume and Weight",
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.tertiary,
                     modifier = Modifier.padding(bottom = 12.dp)
                 )
 
-                specs.kerbWeight?.let { Text(text = createStyledText("• Kerb Weight: ", it))}
-                specs.fuelTankCapacity?.let { Text(text = createStyledText("• Fuel Tank: ", it))}
-                specs.maxWeight?.let { Text(text = createStyledText("• Max Weight: ", it))}
-                specs.maxLoad?.let { Text(text = createStyledText("• Max Load: ", it))}
-                specs.trunkSpaceMin?.let { Text(text = createStyledText("• Min Trunk: ", it))}
-                specs.trunkSpaceMax?.let { Text(text = createStyledText("• Max Trunk: ", it))}
+                specs.kerbWeight?.let { Text(text = createStyledText("• Kerb weight: ", it))}
+                specs.maxWeight?.let { Text(text = createStyledText("• Max. weight: ", it))}
+                specs.maxLoad?.let { Text(text = createStyledText("• Max. load: ", it))}
+                specs.trunkSpaceMin?.let { Text(text = createStyledText("• Min. trunk: ", it))}
+                specs.trunkSpaceMax?.let { Text(text = createStyledText("• Max. trunk: ", it))}
+                specs.fuelTankCapacity?.let { Text(text = createStyledText("• Fuel tank: ", it))}
             }
         }
     }
@@ -356,14 +356,14 @@ fun DimensionsSpecsSection(specs: com.example.auto_data.network.SpecDetailsDimen
 
                 specs.length?.let { Text(text = createStyledText("• Length: ", it))}
                 specs.width?.let { Text(text = createStyledText("• Width: ", it))}
-                specs.widthIncludingMirrors?.let { Text(text = createStyledText("• Width (with mirrors): ", it))}
+                specs.widthIncludingMirrors?.let { Text(text = createStyledText("• Width with mirrors: ", it))}
                 specs.height?.let { Text(text = createStyledText("• Height: ", it))}
                 specs.wheelbase?.let { Text(text = createStyledText("• Wheelbase: ", it))}
-                specs.frontTrack?.let { Text(text = createStyledText("• Front Track: ", it))}
-                specs.rearTrack?.let { Text(text = createStyledText("• Rear Track: ", it))}
-                specs.minimumTurningCircle?.let { Text(text = createStyledText("• Turning Circle: ", it))}
-                specs.frontOverhang?.let { Text(text = createStyledText("• Front Overhang: ", it))}
-                specs.rearOverhang?.let { Text(text = createStyledText("• Rear Overhang: ", it))}
+                specs.frontTrack?.let { Text(text = createStyledText("• Front track: ", it))}
+                specs.rearTrack?.let { Text(text = createStyledText("• Rear track: ", it))}
+                specs.minimumTurningCircle?.let { Text(text = createStyledText("• Turning diameter: ", it))}
+                specs.frontOverhang?.let { Text(text = createStyledText("• Front overhang: ", it))}
+                specs.rearOverhang?.let { Text(text = createStyledText("• Rear overhang: ", it))}
             }
         }
     }
@@ -390,17 +390,17 @@ fun DrivetrainSpecsSection(specs: com.example.auto_data.network.SpecDetailsDrive
                 )
 
                 specs.drivetrainArchitecture?.let { Text(text = createStyledText("• Drivetrain: ", it))}
-                specs.driveWheel?.let { Text(text = createStyledText("• Drive Wheel: ", it))}
+                specs.driveWheel?.let { Text(text = createStyledText("• Drive wheel: ", it))}
                 specs.numberOfGears?.let { Text(text = createStyledText("• Gears: ", it))}
-                specs.frontSuspension?.let { Text(text = createStyledText("• Front Suspension: ", it))}
-                specs.rearSuspension?.let { Text(text = createStyledText("• Rear Suspension: ", it))}
-                specs.assistingSystems?.let { Text(text = createStyledText("• Assisting Systems: ", it))}
-                specs.steeringType?.let { Text(text = createStyledText("• Steering Type: ", it))}
-                specs.powerSteering?.let { Text(text = createStyledText("• Power Steering: ", it))}
-                specs.frontBrakes?.let { Text(text = createStyledText("• Front Brakes: ", it))}
-                specs.rearBrakes?.let { Text(text = createStyledText("• Rear Brakes: ", it))}
+                specs.frontSuspension?.let { Text(text = createStyledText("• Front suspension: ", it))}
+                specs.rearSuspension?.let { Text(text = createStyledText("• Rear suspension: ", it))}
+                specs.assistingSystems?.let { Text(text = createStyledText("• Assisting systems: ", it))}
+                specs.steeringType?.let { Text(text = createStyledText("• Steering type: ", it))}
+                specs.powerSteering?.let { Text(text = createStyledText("• Power steering: ", it))}
+                specs.frontBrakes?.let { Text(text = createStyledText("• Front brakes: ", it))}
+                specs.rearBrakes?.let { Text(text = createStyledText("• Rear brakes: ", it))}
                 specs.tiresSize?.let { Text(text = createStyledText("• Tires: ", it))}
-                specs.wheelRimsSize?.let { Text(text = createStyledText("• Wheel Rims: ", it))}
+                specs.wheelRimsSize?.let { Text(text = createStyledText("• Rims: ", it))}
             }
         }
     }
