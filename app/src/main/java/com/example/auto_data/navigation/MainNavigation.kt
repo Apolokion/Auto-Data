@@ -74,7 +74,7 @@ fun Main_Navigation() {
                     SettingsScreen()
                 }
                 composable(ScreenObjects.WishList.route) {
-                    WishlistScreen()
+                    WishlistScreen(navController)
                 }
                 composable(ScreenObjects.CarModels.route) { backStackEntry ->
                     val carCompany = backStackEntry.arguments?.getString("carCompany")
