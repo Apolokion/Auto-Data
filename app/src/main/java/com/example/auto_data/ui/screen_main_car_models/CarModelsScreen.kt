@@ -224,6 +224,7 @@ fun CarModelsTopAppBar(
             ) {
                 Text(
                     text = "$carCompany models",
+                    style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.onPrimary
                 )
             }

@@ -141,7 +141,6 @@ fun CarSpecsDetailsTopAppBar(
 ) {
     TopAppBar(
         modifier = Modifier
-            .height(58.dp)
             .offset(y = topAppBarOffset),
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.surface
@@ -155,6 +154,7 @@ fun CarSpecsDetailsTopAppBar(
                     text = generationSpecs?.let { specs ->
                         "${specs.brand ?: ""} ${specs.generation ?: ""} ${specs.genSpecs ?: "Specifications"}"
                     } ?: "Specifications Details",
+                    style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.onPrimary,
                     maxLines = 2
                 )

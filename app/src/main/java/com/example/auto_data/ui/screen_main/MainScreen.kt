@@ -84,6 +84,7 @@ fun MainScreen(
                     ) {
                         Text(
                             "Manufacturers",
+                            style = MaterialTheme.typography.headlineSmall,
                             color = MaterialTheme.colorScheme.onPrimary
                         )
                     }

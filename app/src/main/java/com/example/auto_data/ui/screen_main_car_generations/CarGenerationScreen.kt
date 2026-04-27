@@ -230,6 +230,7 @@ fun CarGenerationsTopAppBar(
             ) {
                 Text(
                     text = "$carModel - Generations",
+                    style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.onPrimary,
                     maxLines = 1
                 )

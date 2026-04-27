@@ -259,6 +259,7 @@ fun CarGenerationSpecsTopAppBar(
                     } else {
                         "No Specifications Data"
                     },
+                    style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.onPrimary,
                     maxLines = 1
                 )
