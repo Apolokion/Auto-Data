@@ -15,7 +15,7 @@ object Dimensions {
     val spacer_large = 16.dp
 
     val padding_small = 8.dp
-    val padding_normal = 16.dp
+    val padding_normal = 12.dp
     val padding_large = 24.dp
     val padding_xlarge = 32.dp
 
