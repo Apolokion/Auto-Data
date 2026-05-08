@@ -32,16 +32,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.auto_data.R
 import com.example.auto_data.ui.screen_accounts.AccountScreen
-import com.example.auto_data.ui.screen_main_car_models.CarModelsScreen
 import com.example.auto_data.ui.screen_compare_cars.CompareScreen
 import com.example.auto_data.ui.screen_main.MainScreen
 import com.example.auto_data.ui.screen_main_car_generation_specs.CarGenerationSpecsScreen
 import com.example.auto_data.ui.screen_main_car_generations.CarGenerationsScreen
+import com.example.auto_data.ui.screen_main_car_models.CarModelsScreen
 import com.example.auto_data.ui.screen_main_car_specs_details.CarSpecsDetailsScreen
 import com.example.auto_data.ui.screen_news.NewsScreen
 import com.example.auto_data.ui.screen_settings.SettingsScreen
-import com.example.auto_data.ui.theme.Dimensions.icon_size_normal
 import com.example.auto_data.ui.screen_wishlist.WishlistScreen
+import com.example.auto_data.ui.theme.Dimensions.icon_size_normal
 
 @Composable
 fun Main_Navigation() {
@@ -104,33 +104,25 @@ fun Main_Navigation() {
 fun TopBar(navController: NavHostController) {
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.primary),
-        horizontalArrangement = Arrangement.SpaceBetween
+            .height(40.dp)
+            .background(MaterialTheme.colorScheme.primary)
     ) {
-        Box(
-            modifier = Modifier.weight(1f),
-            contentAlignment = Alignment.CenterStart
-        ) {}
-
-        Box(
-            modifier = Modifier.weight(1f),
-            contentAlignment = Alignment.CenterStart
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.auto_data_name),
-                contentDescription = "App Logo",
-                modifier = Modifier
-                    .height(42.dp)
-                    .padding(top = 8.dp)
-            )
-        }
-
-        Box(
-            modifier = Modifier.weight(1f),
-            contentAlignment = Alignment.CenterEnd
-        ) {
-            Row {
+        Box {
+            Row(modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+                ) {
+                Image(
+                    painter = painterResource(id = R.drawable.auto_data_name),
+                    contentDescription = "App Logo",
+                    modifier = Modifier
+                        .height(38.dp)
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
                 IconButton(onClick = { navController.navigate(ScreenObjects.WishList.route) }) {
                     Icon(
                         painter = painterResource(id = R.drawable.wishlist),
@@ -151,6 +143,7 @@ fun TopBar(navController: NavHostController) {
         }
     }
 }
+
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController, selectedTab: MutableState<Int>) {
