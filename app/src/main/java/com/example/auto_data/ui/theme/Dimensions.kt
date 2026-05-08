@@ -5,7 +5,7 @@ import androidx.compose.ui.unit.dp
 object Dimensions {
     val icon_size_small = 20.dp
     val icon_size_normal = 24.dp
-    val icon_size_large = 30.dp
+    val icon_size_large = 28.dp
 
     val car_icons = 55.dp
     val model_image = 200.dp

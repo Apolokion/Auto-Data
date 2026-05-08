@@ -147,13 +147,13 @@ fun TopBar(navController: NavHostController) {
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController, selectedTab: MutableState<Int>) {
-    Box(modifier = Modifier.height(56.dp)) {
+    Box(modifier = Modifier.height(46.dp)) {
         NavigationBar(containerColor = MaterialTheme.colorScheme.primary) {
             NavigationBarItem(
                 icon = {
                     Icon(
                         painter = painterResource(id = R.drawable.home),
-                        contentDescription = "Home",
+                        contentDescription = "Home Screen",
                         modifier = Modifier.size(icon_size_normal),
                         tint = MaterialTheme.colorScheme.onPrimary
                     )
@@ -179,7 +179,7 @@ fun BottomNavigationBar(navController: NavHostController, selectedTab: MutableSt
                 icon = {
                     Icon(
                         painter = painterResource(id = R.drawable.car),
-                        contentDescription = "Compare",
+                        contentDescription = "Compare Screen",
                         modifier = Modifier.size(icon_size_normal),
                         tint = MaterialTheme.colorScheme.onPrimary
                     )
@@ -205,7 +205,7 @@ fun BottomNavigationBar(navController: NavHostController, selectedTab: MutableSt
                 icon = {
                     Icon(
                         painter = painterResource(id = R.drawable.newspaper),
-                        contentDescription = "News",
+                        contentDescription = "News Screen",
                         modifier = Modifier.size(icon_size_normal),
                         tint = MaterialTheme.colorScheme.onPrimary,
                     )
@@ -231,7 +231,7 @@ fun BottomNavigationBar(navController: NavHostController, selectedTab: MutableSt
                 icon = {
                     Icon(
                         painter = painterResource(id = R.drawable.user),
-                        contentDescription = "Account",
+                        contentDescription = "Account Screen",
                         modifier = Modifier.size(icon_size_normal),
                         tint = MaterialTheme.colorScheme.onPrimary
                     )
