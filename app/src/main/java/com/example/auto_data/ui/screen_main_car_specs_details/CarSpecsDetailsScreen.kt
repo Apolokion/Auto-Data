@@ -63,12 +63,12 @@ fun CarSpecsDetailsScreen(
     val isTopAppBarVisible by remember {
         derivedStateOf {
             lazyListState.firstVisibleItemIndex == 0 &&
-                    lazyListState.firstVisibleItemScrollOffset < 58
+                    lazyListState.firstVisibleItemScrollOffset < 64
         }
     }
 
     val topAppBarOffset by animateDpAsState(
-        targetValue = if (isTopAppBarVisible) 0.dp else (-58).dp,
+        targetValue = if (isTopAppBarVisible) 0.dp else (-64).dp,
         label = "topAppBarOffset"
     )
 
