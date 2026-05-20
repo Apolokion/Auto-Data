@@ -50,7 +50,7 @@ fun WishlistScreen(
         topBar = {
             TopAppBar(
                 modifier = Modifier
-                    .height(48.dp),
+                    .height(Dimensions.topAppBarHeight),
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface
                 ),
@@ -59,7 +59,7 @@ fun WishlistScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(end = 24.dp)
-                            .height(48.dp),
+                            .height(Dimensions.topAppBarHeight),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(

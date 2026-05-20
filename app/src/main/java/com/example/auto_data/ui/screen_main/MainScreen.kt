@@ -69,7 +69,7 @@ fun MainScreen(
         topBar = {
             TopAppBar(
                 modifier = Modifier
-                    .height(48.dp)
+                    .height(Dimensions.topAppBarHeight)
                     .offset(y = topAppBarOffset),
                 colors = TopAppBarDefaults.topAppBarColors(
                     MaterialTheme.colorScheme.surface
@@ -78,7 +78,7 @@ fun MainScreen(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(48.dp)
+                            .height(Dimensions.topAppBarHeight)
                             .padding(start = 28.dp),
                         contentAlignment = Alignment.Center
                     ) {
