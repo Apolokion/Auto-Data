@@ -242,6 +242,6 @@ fun CarModelsTopAppBar(
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
-        },
+        }
     )
 }
